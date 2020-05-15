@@ -10,13 +10,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "attachmediastream": "^2.0.4",
+    "attachmediastream": "^2.1.0",
+    "element-ui": "^2.13.1",
     "simplewebrtc": "^3.0.2",
     "uuid": "^3.3.2",
     "vue": "^2.5.17",
     "vue-router": "^3.0.2",
     "vuex": "^3.0.1",
-    "webrtc-adapter": "^6.4.8"
+    "webrtc-adapter": "^7.6.0"
   },
   "devDependencies": {
     "serve-static": "^1.13.2",

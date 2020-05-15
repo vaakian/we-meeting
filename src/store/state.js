@@ -4,7 +4,9 @@ export default {
   state: {
     name: '',
     muted: false,
-    paused: false
+    paused: false,
+    screenSharing: false,
+    showChat: false
   },
   clients: [],
   messages: []

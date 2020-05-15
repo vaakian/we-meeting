@@ -9,9 +9,14 @@ export const getState = (state) => {
   return state.state
 }
 
-export const getClients = (state) => {
-  return state.clients
+export const getVideoClients = (state) => {
+  return state.clients.filter(client => client.peer.type === 'video')
 }
+
+export const getScreenClients = (state) => {
+  return state.clients.filter(client => client.peer.type === 'screen')
+}
+
 
 export const getMessages = (state) => {
   return state.messages

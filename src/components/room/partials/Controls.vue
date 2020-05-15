@@ -1,14 +1,32 @@
 <template>
   <ul class="controls">
-    <li class="controls__item">
-      <a href class="controls__link" v-if="state.muted" @click.prevent="unmuteMe">开麦</a>
-      <a href class="controls__link" v-else @click.prevent="muteMe">关麦</a>
+    <li class="controls__item" v-if="state.muted">
+      <a href class="controls__link" @click.prevent="unmuteMe">开麦</a>
     </li>
+    <li class="controls__item controls__off" v-else>
+      <a href class="controls__link" @click.prevent="muteMe">关麦</a>
+    </li>
+
     <li class="controls__item" v-if="state.paused">
       <a href class="controls__link" @click.prevent="unpauseMe">打开视频</a>
     </li>
-    <li class="controls__item" v-else>
+    <li class="controls__item controls__off" v-else>
       <a href class="controls__link" @click.prevent="pauseMe">关闭视频</a>
+    </li>
+
+    <li class="controls__item controls__off" v-if="state.screenSharing">
+      <!-- <a href class="controls__link" @click.prevent="stopScreenShare">关闭共享</a> -->
+      <a href class="controls__link disabled">屏幕共享</a>
+    </li>
+    <li class="controls__item" v-else>
+      <a href class="controls__link" @click.prevent="shareScreen">屏幕共享</a>
+    </li>
+
+    <li class="controls__item controls__off" v-if="state.showChat">
+      <a href class="controls__link" @click.prevent="closeChat">收起聊天</a>
+    </li>
+    <li class="controls__item" v-else>
+      <a href class="controls__link" @click.prevent="openChat">打开聊天</a>
     </li>
   </ul>
 </template>
@@ -20,7 +38,9 @@ export default {
   methods: {
     ...mapMutations({
       setMuted: 'setMuted',
-      setPaused: 'setPaused'
+      setPaused: 'setPaused',
+      setScreenSharing: 'setScreenSharing',
+      setShowChat: 'setShowChat'
     }),
     muteMe() {
       window.webrtc.mute();
@@ -38,7 +58,30 @@ export default {
     unpauseMe() {
       window.webrtc.resumeVideo();
       this.setPaused(false);
-      this.setMuted(false);
+    },
+    shareScreen() {
+      window.webrtc.shareScreen(event => {
+        if (event && event.code === 0) {
+          console.log('拒绝了摄像头授权');
+          window.webrtc.stopScreenShare();
+          this.setScreenSharing(false);
+        } else {
+          console.log('分享屏幕', { event });
+          this.setScreenSharing(true);
+        }
+      });
+    },
+    stopScreenShare() {
+      // window.webrtc.stopScreenShare();
+      // this.setScreenSharing(false);
+      // console.log('关闭屏幕', this.state);
+      // console.log('')
+    },
+    closeChat() {
+      this.setShowChat(false);
+    },
+    openChat() {
+      this.setShowChat(true);
     }
   },
   computed: {
@@ -53,7 +96,8 @@ export default {
 .controls {
   position: absolute;
   width: 100%;
-  bottom: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -61,7 +105,10 @@ export default {
   margin: 0;
   padding: 0;
   list-style: none;
-
+  z-index: 20;
+  &__off {
+    background: red;
+  }
   &__item {
     font-weight: 600;
     flex: 1;
@@ -76,6 +123,10 @@ export default {
     padding: 15px 18px;
     height: 100%;
     width: 100%;
+  }
+  .disabled {
+    background: #999;
+    color: #CCC;
   }
 }
 </style>

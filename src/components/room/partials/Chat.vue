@@ -66,7 +66,8 @@ export default {
   mounted() {
     const _vm = this;
     const handleMessage = ({ type, payload }) => {
-      console.log('收到消息', { type, payload });
+      if (['candidate', 'answer', 'endOfCandidates'].indexOf(type) === -1)
+        console.log('收到消息', { type, payload });
       _vm.contetnSrollBottom();
       if (type === 'chat') this.receiveMessage(payload);
     };
@@ -78,7 +79,6 @@ export default {
 <style lang="scss" scoped>
 .chat {
   height: 100%;
-  border: 1px solid green;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -87,7 +87,6 @@ export default {
     overflow-y: scroll;
     padding-bottom: 50px;
     @media screen and (max-width: 450px) {
-      max-height: 50vh;
     }
 
     &::-webkit-scrollbar {
