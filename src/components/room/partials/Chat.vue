@@ -60,6 +60,7 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
+  props: ['nohandler'],
   data() {
     return {
       messageContent: ''
@@ -121,6 +122,7 @@ export default {
     this.contetnSrollBottom();
   },
   mounted() {
+    if (this.nohandler) return;
     const _vm = this;
     const handleMessage = ({ type, payload }) => {
       if (['candidate', 'answer', 'endOfCandidates'].indexOf(type) === -1)
@@ -128,7 +130,7 @@ export default {
       _vm.contetnSrollBottom();
       if (type === 'chat') this.receiveMessage(payload);
     };
-    this.$nextTick(() => window.webrtc.connection.on('message', handleMessage));
+    window.webrtc.connection.on('message', handleMessage);
   }
 };
 </script>
@@ -161,10 +163,18 @@ export default {
     &__self {
       float: right;
       text-align: right;
+      width: 100%;
+      .chat__content__left {
+        min-width: none;
+        max-width: calc(100% - 100px);
+      }
+      .chat__content__right {
+        max-width: none;
+      }
       .chat__content__text {
         background: #4095f0;
         color: white;
-        text-align: right;
+        text-align: left;
       }
       .chat__content__head {
         text-align: right;
@@ -173,14 +183,13 @@ export default {
     &__left,
     &__right {
       display: inline-block;
-      max-width: 60%;
+      max-width: calc(100% - 100px);
       text-align: left;
     }
     &__left {
       word-break: break-all;
     }
     &__right {
-      min-height: 60px;
       vertical-align: top;
       margin-left: 10px;
       margin-bottom: 10px;

@@ -75,7 +75,7 @@
                   title="聊天"
                   trigger="click"
                 >
-                  <Chat />
+                  <Chat :nohandler="true" />
                   <div slot="reference">
                     <i class="el-icon-message"></i>
                     <el-badge slot="title" :value="messages.length" :max="99">
@@ -201,7 +201,7 @@ export default {
       window.webrtc.shareScreen(event => {
         if (event) {
           if (event.code === 0) {
-            this.$message.error('您拒绝了屏幕共享');
+            this.$message.error('您取消了屏幕共享');
             window.webrtc.stopScreenShare();
             this.setScreenSharing(false);
           } else if (event.stack) {
@@ -248,7 +248,6 @@ export default {
     }
   }
   &__mobile {
-
   }
   .el-menu-item .is-round i {
     color: white;

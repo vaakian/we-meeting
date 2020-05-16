@@ -76,6 +76,16 @@ export default {
       type: 'warning'
     });
   },
+  beforeDestroy() {
+    const { peer } = this.client;
+    this.$message({
+      dangerouslyUseHTMLString: true,
+      message: ` <strong style="color: #409EFF">${peer.nick}</strong> ${
+        peer.type === 'video' ? '离开了会议' : '停止了屏幕共享'
+      }`,
+      iconClass: 'el-icon-circle-close'
+    });
+  },
   watch: {
     // 移动端不许点击
     isZoomed(val) {
