@@ -213,10 +213,17 @@ export default {
 .controls {
   position: absolute;
   width: 100%;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 98%;
+  max-width: 650px;
+  border-radius: 13px;
+  overflow: hidden;
   z-index: 20;
+  .el-button.is-round {
+    border-radius: 13px !important;
+  }
   &__chat {
     width: 600px;
     @media screen and(max-width: 620px) {

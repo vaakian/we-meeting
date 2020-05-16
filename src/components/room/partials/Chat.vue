@@ -44,6 +44,7 @@
         :rows="2"
         type="textarea"
         :maxlength="256"
+        resize="none"
       />
       <el-tooltip effect="dark" content="按 ctrl+enter 发送" placement="bottom">
         <el-button
@@ -215,6 +216,9 @@ export default {
       background: #f3f3f3;
       padding: 10px 10px;
       border-radius: 5px;
+      img {
+        max-width: 100%;
+      }
     }
     @media screen and (max-width: 450px) {
     }

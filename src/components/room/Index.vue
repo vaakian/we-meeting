@@ -233,7 +233,7 @@ export default {
   vertical-align: baseline;
   width: 100%;
   padding: 5px;
-  padding-top: 60px;
+  padding-top: 70px;
 }
 
 video {
