@@ -61,10 +61,20 @@ export default {
     }
   },
   mounted() {
+    const { peer } = this.client;
     // this.$refs.person.srcObject = this.client.peer.stream;
     this.$refs.person.append(this.client.video);
     // this.$refs.person.play();
     this.client.video.play();
+
+    // 通知加入
+    this.$message({
+      dangerouslyUseHTMLString: true,
+      message: `<strong style="color: #409EFF">${peer.nick}</strong> ${
+        peer.type === 'video' ? '加入了会议' : '开启了屏幕共享'
+      }`,
+      type: 'warning'
+    });
   },
   watch: {
     // 移动端不许点击

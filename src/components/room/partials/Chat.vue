@@ -1,16 +1,58 @@
 <template>
   <div class="chat">
-    <h1 style="text-align: center">文字聊天</h1>
-    <div class="chat-content" ref="chatContent">
-      <p v-for="(message, key) in messages" :key="key+message">
-        <span style="font-weight: bold">{{message.nick}}</span>:
-        <em>{{message.content}}</em>
-      </p>
-    </div>
-    <div class="chat-operation">
-      <textarea v-model="messageContent" type="text" />
-      <button @click="sendMessage">发送消息</button>
-    </div>
+    <!-- 聊天内容 -->
+    <ul class="chat__content" ref="chatContent">
+      <li class="chat__content__empty" v-if="messages.length === 0">还没有任何消息哦~</li>
+      <li v-else v-for="(message, key) in messages" :key="key+message">
+        <!-- 自己 -->
+        <div class="chat__content__self" v-if="message.self">
+          <div class="chat__content__left">
+            <p class="chat__content__head">
+              <span class="chat__content__nick">{{message.nick}}</span>
+              <span class="chat__content__time">{{currentTime()}}</span>
+            </p>
+            <div class="chat__content__text">
+              <p v-html="message.content"></p>
+            </div>
+          </div>
+          <div class="chat__content__right">
+            <el-avatar :size="60">{{message.nick[0]}}</el-avatar>
+          </div>
+        </div>
+        <!-- 其他人 -->
+        <div v-else>
+          <div class="chat__content__left">
+            <el-avatar :size="60">{{message.nick[0]}}</el-avatar>
+          </div>
+          <div class="chat__content__right">
+            <p class="chat__content__head">
+              <span class="chat__content__nick">{{message.nick}}</span>
+              <span class="chat__content__time">{{currentTime()}}</span>
+            </p>
+            <div class="chat__content__text">
+              <p v-html="message.content"></p>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <!-- 发送、输入 -->
+    <el-row :gutter="10" justify="space-between" type="flex" class="chat__operation">
+      <el-col :span="21">
+        <el-input
+          v-model="messageContent"
+          @keyup.ctrl.enter.native="sendMessage"
+          :rows="2"
+          type="textarea"
+          :maxlength="256"
+        />
+      </el-col>
+      <el-col :span="3">
+        <el-tooltip effect="dark" content="按 ctrl+enter 发送" placement="bottom">
+          <el-button type="primary" @click="sendMessage" circle icon="el-icon-s-promotion"></el-button>
+        </el-tooltip>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -38,30 +80,45 @@ export default {
     sendMessage() {
       const _vm = this;
       if (_vm.messageContent === '') {
-        console.log('请输入消息！');
+        this.$message.warning('请输入消息！');
         return;
       }
       if (_vm.connIsReady) {
         let message = {
           nick: _vm.nick,
           content: _vm.messageContent
+            .replace(/\n/gi, '<br/>')
+            .replace(/script/gi, 'em')
         };
+        console.log('准备发送消息！');
         window.webrtc.sendToAll('chat', message);
+        message.self = true;
         _vm.addMessage(message);
-        _vm.contetnSrollBottom();
       } else {
-        console.log('未连接到服务器！ ');
+        this.$message.error('未连接到服务器！ ');
       }
       // 清空
       _vm.messageContent = '';
     },
     receiveMessage(message) {
+      this.$message({
+        dangerouslyUseHTMLString: true,
+        iconClass: 'el-icon-message',
+        message: `<span style="color: #4095f0"> ${message.nick}</span> 发来一条消息`
+      });
       this.addMessage(message);
     },
     contetnSrollBottom() {
       let div = this.$refs.chatContent;
       div.scrollTop = div.scrollHeight;
+    },
+    currentTime() {
+      const date = new Date();
+      return `${date.getHours()}:${date.getMinutes()}`;
     }
+  },
+  updated() {
+    this.contetnSrollBottom();
   },
   mounted() {
     const _vm = this;
@@ -78,14 +135,71 @@ export default {
 
 <style lang="scss" scoped>
 .chat {
-  height: 100%;
+  height: 55vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  .chat-content {
-    background: #e6f1f2;
+  .el-avatar {
+    font-size: 25px;
+  }
+  &__content {
+    &__empty {
+      background-color: #f3f3f3;
+      text-align: center;
+      font-size: 16px;
+      padding: 10px 0;
+    }
+    li {
+      overflow: hidden;
+      zoom: 1;
+    }
     overflow-y: scroll;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &__self {
+      float: right;
+      text-align: right;
+      .chat__content__text {
+        background: #4095f0;
+        color: white;
+        text-align: right;
+      }
+      .chat__content__head {
+        text-align: right;
+      }
+    }
+    &__left,
+    &__right {
+      display: inline-block;
+      max-width: 60%;
+      text-align: left;
+    }
+    &__left {
+      word-break: break-all;
+    }
+    &__right {
+      min-height: 60px;
+      vertical-align: top;
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+    &__time {
+      font-size: 13px;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+    &__nick {
+      color: #4095f0;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    &__text {
+      background: #f3f3f3;
+      padding: 10px 10px;
+      border-radius: 5px;
+    }
     @media screen and (max-width: 450px) {
     }
 
@@ -93,10 +207,11 @@ export default {
       display: auto;
     }
   }
-  .chat-operation {
+  &__operation {
+    padding: 15px 8px;
+    background: #f3f3f3;
     width: 100%;
     border-radius: 5px;
-    background: #ddd;
     textarea {
       width: 100%;
     }

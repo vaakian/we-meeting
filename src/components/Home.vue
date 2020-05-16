@@ -95,8 +95,12 @@ export default {
       setMeName: 'setMeName'
     }),
     join() {
-      if (this.name === '') {
+      if (!this.name) {
         Message.error('请输入您的昵称');
+        return;
+      }
+      if (!this.room) {
+        Message.error('请输入会议号，或者创建新的会议');
         return;
       }
       this.setMeName(this.name);

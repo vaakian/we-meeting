@@ -34,10 +34,7 @@
           :key="client.peer.id+client.peer.type"
         ></Video>
       </div>
-      <Controls />
-    </div>
-    <div :style="{height: state.showChat ? '80vh': 0}" class="chat-side">
-      <Chat v-if="chatable" />
+      <Controls v-if="chatable" />
     </div>
   </div>
 </template>
@@ -190,8 +187,8 @@ export default {
 .room {
   height: 100vh;
   position: relative;
-  background: linear-gradient(#cfe7ff, #3b92f0);
-
+  background: linear-gradient(#cfe7ff, #cee7f8);
+  //background: white;
   .video-side {
     display: inline-block;
     width: 100%;
@@ -251,7 +248,7 @@ video {
     box-shadow: 0 10px 25px rgba(49, 49, 49, 0.2);
     border-radius: 3px;
     position: relative;
-    background: url('/static/nocam.png') #eee;
+    background: url('/static/nocam.png') #ddd;
     background-size: cover;
     .person__name {
       padding-left: 2em;

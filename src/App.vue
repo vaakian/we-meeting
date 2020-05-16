@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'app'
 };
@@ -27,5 +26,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
+}
+.el-row {
+  &:focus {
+    outline: none;
+    border: none;
+  }
 }
 </style>
