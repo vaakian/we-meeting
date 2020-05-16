@@ -1,5 +1,5 @@
 <template>
-  <div class="controls">
+  <div class="controls" :style="{'top': showControl ? '10px':'-60px'}">
     <el-menu default-active="1-4-1" class="controls__menu" mode="horizontal" :collapse="false">
       <el-row>
         <!-- 电脑端 -->
@@ -139,6 +139,17 @@
         </el-col>
       </el-row>
     </el-menu>
+
+    <!-- 收起、放下按钮 -->
+    <div :class="{'controls__fold':true, 'controls__folded': !showControl}">
+      <el-button
+        class="controls__fold__btn"
+        :icon="showControl ? 'el-icon-top':'el-icon-bottom'"
+        :type="showControl ? 'success': 'primary'"
+        @click="showControl = !showControl"
+        circle
+      ></el-button>
+    </div>
   </div>
 </template>
 
@@ -148,6 +159,11 @@ import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   components: { Chat },
+  data() {
+    return {
+      showControl: true
+    };
+  },
   methods: {
     ...mapMutations({
       setMuted: 'setMuted',
@@ -204,6 +220,8 @@ export default {
 
 <style lang="scss">
 .controls {
+  // top -65px;
+  transition: 0.3s;
   position: absolute;
   width: 100%;
   top: 10px;
@@ -212,16 +230,37 @@ export default {
   width: 98%;
   max-width: 650px;
   border-radius: 13px;
-  overflow: hidden;
   z-index: 20;
   .el-button.is-round {
     border-radius: 13px !important;
+  }
+  &:hover &__fold {
+    display: inline-block;
+    bottom: -44px;
+  }
+  &__fold {
+    width: 100%;
+    transition: 0.3s;
+    position: absolute;
+    bottom: 0;
+    z-index: -1;
+    &__btn {
+      transform: translateX(-50%);
+      margin-left: 50% !important;
+    }
+  }
+  &__folded {
+    bottom: -44px;
   }
   &__chat {
     width: 600px;
     @media screen and(max-width: 620px) {
       width: 98vw;
     }
+  }
+  &__menu {
+    border-radius: 13px;
+    overflow: hidden;
   }
   &__mobile {
   }
