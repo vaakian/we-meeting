@@ -1,34 +1,41 @@
 # Video chat build with SimpleWebRTC and Vue.js
++ [ ] 视频设置成 `position: fix` 全屏
 
-- 按钮关闭 变色
++ [ ] 无摄像头，申请语音
 
-- 对单个用户关闭声音
++ [ ] 按钮关闭 变色
 
-- 浏览器 不支持 则提示
++ [ ] 复制会议
 
-- 画板 [fabric](https://github.com/fabricjs/fabric.js)
++ [ ] 对单个用户关闭声音
 
-- 屏幕共享 screen sharing
++ [x] 放大缩小 bug 动画问题
 
-- 回车发送消息
++ [ ] 浏览器 不支持 则提示
 
-- 文件共享
++ [ ] 画板 [fabric](https://github.com/fabricjs/fabric.js)
 
-- 富文本消息
++ [x] 屏幕共享 screen sharing done
 
-- 对用户静音、关闭视频
++ [ ] 回车发送消息
 
-- 收到消息提示，新加入用户提示
++ [ ] 文件共享
 
-- 关闭视频 显示 已关闭
++ [ ] 富文本消息
 
-- 聊天类似评论
++ [ ] 对用户静音、关闭视频
 
-- 全员静音 setVolumeForAll
++ [ ] 收到消息提示，新加入用户提示
 
-- 进网页若url没有room参数，则有两种选项：输入已有房间号、新建会议（生成会议号、二维码、分析）
++ [ ] 关闭视频 显示 已关闭
 
-- 默认host全屏
++ [ ] 聊天类似评论
+
++ [ ] 全员静音 setVolumeForAll
+
++ [x] 进网页若url没有room参数，则有两种选项：输入已有房间号、新建会议（生成会议号、二维码、分析）
+
++ [ ] 默认host全屏
 
 ## Project setup
 ```

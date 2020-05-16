@@ -71,7 +71,7 @@ export default {
       _vm.contetnSrollBottom();
       if (type === 'chat') this.receiveMessage(payload);
     };
-    window.webrtc.connection.on('message', handleMessage);
+    this.$nextTick(() => window.webrtc.connection.on('message', handleMessage));
   }
 };
 </script>

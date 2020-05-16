@@ -16,7 +16,7 @@
 
     <li class="controls__item controls__off" v-if="state.screenSharing">
       <!-- <a href class="controls__link" @click.prevent="stopScreenShare">关闭共享</a> -->
-      <a href class="controls__link disabled">屏幕共享</a>
+      <a href class="controls__link disabled" @click.prevent>屏幕共享</a>
     </li>
     <li class="controls__item" v-else>
       <a href class="controls__link" @click.prevent="shareScreen">屏幕共享</a>
@@ -126,7 +126,7 @@ export default {
   }
   .disabled {
     background: #999;
-    color: #CCC;
+    color: #ccc;
   }
 }
 </style>
