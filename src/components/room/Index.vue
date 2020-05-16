@@ -265,12 +265,12 @@ video {
   }
 
   @media (min-width: 576px) and (max-width: 767px) {
-    width: 49%;
+    width: 47%;
     &:nth-of-type(2n) {
-      margin-right: 0;
+    // margin-right: 0;
     }
     &:nth-of-type(2n + 1) {
-      margin-left: 0;
+      //margin-left: 0;
     }
   }
   @media (min-width: 768px) and (max-width: 991px) {
