@@ -1,4 +1,9 @@
 # Video chat build with SimpleWebRTC and Vue.js
+
+移动端 操作按钮分（操作、聊天）
+
++ [] 点赞功能 提示完就无了 不保存
+
 + [x] 视频设置成 `position: fix` 全屏 （不完美
 
 + [ ] 画板 [fabric](https://github.com/fabricjs/fabric.js)

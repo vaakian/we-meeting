@@ -37,22 +37,24 @@
       </li>
     </ul>
     <!-- 发送、输入 -->
-    <el-row :gutter="10" justify="space-between" type="flex" class="chat__operation">
-      <el-col :span="21">
-        <el-input
-          v-model="messageContent"
-          @keyup.ctrl.enter.native="sendMessage"
-          :rows="2"
-          type="textarea"
-          :maxlength="256"
-        />
-      </el-col>
-      <el-col :span="3">
-        <el-tooltip effect="dark" content="按 ctrl+enter 发送" placement="bottom">
-          <el-button type="primary" @click="sendMessage" circle icon="el-icon-s-promotion"></el-button>
-        </el-tooltip>
-      </el-col>
-    </el-row>
+    <div :gutter="10" justify="space-between" type="flex" class="chat__operation">
+      <el-input
+        v-model="messageContent"
+        @keyup.ctrl.enter.native="sendMessage"
+        :rows="2"
+        type="textarea"
+        :maxlength="256"
+      />
+      <el-tooltip effect="dark" content="按 ctrl+enter 发送" placement="bottom">
+        <el-button
+          type="primary"
+          @click="sendMessage"
+          size="large"
+          circle
+          icon="el-icon-s-promotion"
+        ></el-button>
+      </el-tooltip>
+    </div>
   </div>
 </template>
 
@@ -226,14 +228,13 @@ export default {
     background: #f3f3f3;
     width: 100%;
     border-radius: 5px;
-    textarea {
-      width: 100%;
+    .el-textarea {
+      width: calc(100% - 60px);
+      display: inline-block;
     }
     button {
-      display: block;
-      height: 50px;
-      width: 80%;
-      margin: 0 auto;
+      margin: 10px;
+      display: inline-block;
     }
   }
 }
