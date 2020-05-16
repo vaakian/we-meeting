@@ -9,5 +9,5 @@ export default {
     showChat: false
   },
   clients: [],
-  messages: []
+  messages: [],
 }

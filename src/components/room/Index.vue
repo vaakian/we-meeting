@@ -152,7 +152,7 @@ export default {
           video: {
             // width: { max: 1080, min: 720 },
             // height: { max: 720, min: 480 },
-            frameRate: { ideal: 10, max: 15 }
+            frameRate: { ideal: 7, max: 10 }
           },
           audio: true
         };
@@ -167,7 +167,7 @@ export default {
           video: {
             // width: 855,
             // height: 780,
-            frameRate: { ideal: 10, max: 15 }
+            frameRate: { ideal: 7, max: 10 }
           },
           audio: false
         };
@@ -246,9 +246,10 @@ video {
   display: inline-block;
   &__video {
     box-shadow: 0 10px 25px rgba(49, 49, 49, 0.2);
-    border-radius: 3px;
+    border-radius: 6px;
+    overflow: hidden;
     position: relative;
-    background: url('/static/nocam.png') #ddd;
+    background: url('/static/nocam.png') white;
     background-size: cover;
     .person__name {
       padding-left: 2em;

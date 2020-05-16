@@ -16,23 +16,23 @@
               <el-button icon="el-icon-headset" type="primary" v-else @click="unmuteMe" round>打开麦克风</el-button>
               <el-divider direction="vertical"></el-divider>
               <el-button
-                icon="el-icon-headset"
+                icon="el-icon-camera"
                 type="danger"
                 v-if="!state.paused"
                 @click="pauseMe"
                 round
               >关闭摄像头</el-button>
-              <el-button icon="el-icon-headset" type="primary" v-else @click="unpauseMe" round>打开摄像头</el-button>
+              <el-button icon="el-icon-camera" type="primary" v-else @click="unpauseMe" round>打开摄像头</el-button>
               <el-divider direction="vertical"></el-divider>
               <el-button
-                icon="el-icon-headset"
+                icon="el-icon-monitor"
                 type="danger"
                 v-if="state.screenSharing"
                 @click="stopScreenShare"
                 round
               >取消屏幕共享</el-button>
               <el-button
-                icon="el-icon-headset"
+                icon="el-icon-monitor"
                 type="primary"
                 v-else
                 @click="shareScreen"
@@ -49,6 +49,7 @@
               placement="bottom"
               title="聊天"
               trigger="click"
+              @click.native="setShowChat(!state.showChat)"
             >
               <Chat />
               <div slot="reference">
@@ -78,7 +79,12 @@
                   <Chat :nohandler="true" />
                   <div slot="reference">
                     <i class="el-icon-message"></i>
-                    <el-badge slot="title" :value="messages.length" :max="99">
+                    <el-badge
+                      @click.native="setShowChat(!state.showChat)"
+                      slot="title"
+                      :value="messages.length"
+                      :max="99"
+                    >
                       <span>聊天</span>
                     </el-badge>
                   </div>
@@ -104,14 +110,14 @@
               <el-divider></el-divider>
               <el-dropdown-item>
                 <el-button
-                  icon="el-icon-headset"
+                  icon="el-icon-camera"
                   type="danger"
                   v-if="!state.paused"
                   @click="pauseMe"
                   round
                 >关闭摄像头</el-button>
                 <el-button
-                  icon="el-icon-headset"
+                  icon="el-icon-camera"
                   type="primary"
                   v-else
                   @click="unpauseMe"
@@ -121,14 +127,14 @@
               <el-divider></el-divider>
               <el-dropdown-item>
                 <el-button
-                  icon="el-icon-headset"
+                  icon="el-icon-monitor"
                   type="danger"
                   v-if="state.screenSharing"
                   @click="stopScreenShare"
                   round
                 >关屏幕共享</el-button>
                 <el-button
-                  icon="el-icon-headset"
+                  icon="el-icon-monitor"
                   type="primary"
                   v-else
                   @click="shareScreen"
@@ -140,30 +146,6 @@
         </el-col>
       </el-row>
     </el-menu>
-    <!-- <li class="controls__item" v-if="state.muted">
-      <a href class="controls__link" @click.prevent="unmuteMe">开麦</a>
-    </li>
-    <li class="controls__item controls__off" v-else>
-      <a href class="controls__link" @click.prevent="muteMe">关麦</a>
-    </li>
-
-    <li class="controls__item" v-if="state.paused">
-      <a href class="controls__link" @click.prevent="unpauseMe">打开视频</a>
-    </li>
-    <li class="controls__item controls__off" v-else>
-      <a href class="controls__link" @click.prevent="pauseMe">关闭视频</a>
-    </li>
-
-    <li class="controls__item controls__off" v-if="state.screenSharing">
-      <a href class="controls__link" @click.prevent="stopScreenShare">关闭共享</a>
-      <a href class="controls__link disabled" @click.prevent>屏幕共享</a>
-    </li>
-    <li class="controls__item" v-else>
-      <a href class="controls__link" @click.prevent="shareScreen">屏幕共享</a>
-    </li>
-    <li class="controls__item">
-      
-    </li>-->
   </div>
 </template>
 
@@ -216,12 +198,6 @@ export default {
     stopScreenShare() {
       window.webrtc.stopScreenShare();
       this.setScreenSharing(false);
-    },
-    closeChat() {
-      this.setShowChat(false);
-    },
-    openChat() {
-      this.setShowChat(true);
     }
   },
   computed: {

@@ -131,6 +131,11 @@ export default {
       if (type === 'chat') this.receiveMessage(payload);
     };
     window.webrtc.connection.on('message', handleMessage);
+  },
+  watch: {
+    'state.showChat'() {
+      this.contetnSrollBottom();
+    }
   }
 };
 </script>
