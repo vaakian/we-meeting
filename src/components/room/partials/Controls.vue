@@ -3,7 +3,7 @@
     <el-menu default-active="1-4-1" class="controls__menu" mode="horizontal" :collapse="false">
       <el-row>
         <!-- 电脑端 -->
-        <el-col :xs="0" :sm="12" :md="12" :lg="12" :xl="12">
+        <el-col :xs="0" :sm="20" :md="20" :lg="20" :xl="20">
           <el-menu-item>
             <div>
               <el-button
@@ -41,7 +41,7 @@
             </div>
           </el-menu-item>
         </el-col>
-        <el-col :xs="0" :sm="12" :md="12" :lg="12" :xl="12">
+        <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
           <el-menu-item style="float: right; margin-right: 20px" index="4">
             <el-popover
               slot="title"
@@ -62,35 +62,10 @@
           </el-menu-item>
         </el-col>
         <!-- 移动端 -->
-        <el-col class="controls__mobile" :sm="0" :md="0" :lg="0" :xl="0">
-          <el-dropdown trigger="click" style="float: right; margin: 10px;">
-            <el-link type="primary">
-              下拉菜单
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </el-link>
+        <el-col class="controls__mobile" :xs="12" :sm="0" :md="0" :lg="0" :xl="0">
+          <el-dropdown trigger="click" style="margin: 9px 0 0 10px;">
+            <el-button type="primary" icon="el-icon-phone-outline" round>视频操作</el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <el-popover
-                  popper-class="controls__chat"
-                  placement="bottom"
-                  title="聊天"
-                  trigger="click"
-                >
-                  <Chat :nohandler="true" />
-                  <div slot="reference">
-                    <i class="el-icon-message"></i>
-                    <el-badge
-                      @click.native="setShowChat(!state.showChat)"
-                      slot="title"
-                      :value="messages.length"
-                      :max="99"
-                    >
-                      <span>聊天</span>
-                    </el-badge>
-                  </div>
-                </el-popover>
-              </el-dropdown-item>
-              <el-divider></el-divider>
               <el-dropdown-item>
                 <el-button
                   icon="el-icon-headset"
@@ -124,7 +99,7 @@
                   round
                 >打开摄像头</el-button>
               </el-dropdown-item>
-              <el-divider></el-divider>
+              <!-- <el-divider></el-divider>
               <el-dropdown-item>
                 <el-button
                   icon="el-icon-monitor"
@@ -140,9 +115,27 @@
                   @click="shareScreen"
                   round
                 >开屏幕共享</el-button>
-              </el-dropdown-item>
+              </el-dropdown-item>-->
             </el-dropdown-menu>
           </el-dropdown>
+        </el-col>
+        <el-col :xs="12" :sm="0" :md="0" :lg="0" :xl="0">
+          <el-menu-item style="float: right" index="6">
+            <el-popover popper-class="controls__chat" placement="bottom" title="聊天" trigger="click">
+              <Chat :nohandler="true" />
+              <div slot="reference">
+                <i class="el-icon-message"></i>
+                <el-badge
+                  @click.native="setShowChat(!state.showChat)"
+                  slot="title"
+                  :value="messages.length"
+                  :max="99"
+                >
+                  <span>聊天</span>
+                </el-badge>
+              </div>
+            </el-popover>
+          </el-menu-item>
         </el-col>
       </el-row>
     </el-menu>
