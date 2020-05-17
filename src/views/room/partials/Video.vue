@@ -109,7 +109,7 @@ export default {
   z-index: 0;
   &:hover {
     .person__name {
-      height: 3.2em;
+      height: 3.5em;
     }
     .person__control {
       display: inline-block;

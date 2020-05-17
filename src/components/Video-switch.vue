@@ -32,10 +32,16 @@ export default {
   transform: translateX(-50%);
   white-space: nowrap;
   margin-top: 10px;
+  &__audio {
+    margin-right: 10px;
+  }
   &__audio,
   &__video {
     display: inline-block;
     color: #409eff;
+    background: #f7f5f5;
+    border-radius: 13px;
+    padding: 5px 8px;
   }
 }
 </style>

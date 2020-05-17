@@ -75,7 +75,7 @@ import Icon from '../components/Icon';
 import VideoSwitch from '../components/Video-switch';
 import { Message } from 'element-ui';
 import { randomName } from '../uitls';
-
+import Adapter from 'webrtc-adapter';
 // 两个tab：
 //    加入房间：有url自动填，无责留空。
 //    创建会议：不显示房间号，只有名字，后面自动生成。
@@ -110,7 +110,18 @@ export default {
           room: this.room
         }
       });
+    },
+    checkIfBrowserSupportWebRTC() {
+      alert(Adapter.browserDetails.browser);
+      try {
+        navigator.mediaDevices.enumerateDevices();
+      } catch (err) {
+        this.$message.warning(err);
+      }
     }
+  },
+  mounted() {
+    this.checkIfBrowserSupportWebRTC();
   },
   watch: {
     activeName(val) {
@@ -128,7 +139,7 @@ export default {
 .home-bg {
   min-height: 100vh;
   background: linear-gradient(#cfe7ff, #017dff);
-  padding: 20px;
+  padding: 10px;
 }
 
 .home {
@@ -151,7 +162,7 @@ export default {
     text-shadow: 4px 0px #a9d3ff;
     font-weight: bold;
     background-clip: text;
-    font-size: 2.3em;
+    font-size: 3.3em;
   }
   h3 {
     color: 444;

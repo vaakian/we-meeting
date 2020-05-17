@@ -2,7 +2,9 @@
 
 移动端 操作按钮分（操作、聊天）
 
-+ [ ] loading
++ [x] loading
+
++ [ ] home界面图标
 
 + [ ] 设置框，姓名是否常驻、全局音量: setVolumeForAll(volume)
 
