@@ -1,6 +1,8 @@
 # Video chat build with SimpleWebRTC and Vue.js
 
 移动端 操作按钮分（操作、聊天）
+
++ [ ] loading
 + [ ]  按钮 收缩 三个操作按钮
 
 + [ ] @功能

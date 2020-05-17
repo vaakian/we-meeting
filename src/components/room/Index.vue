@@ -240,56 +240,5 @@ video {
   width: 100%;
 }
 
-.person {
-  position: relative;
-  width: 100%;
-  display: inline-block;
-  &__video {
-    box-shadow: 0 10px 25px rgba(49, 49, 49, 0.2);
-    border-radius: 6px;
-    overflow: hidden;
-    position: relative;
-    background: url('/static/nocam.png') white;
-    background-size: cover;
-    .person__name {
-      padding-left: 2em;
-      font-weight: 600;
-      position: absolute;
-      bottom: 0em;
-      width: 100%;
-      color: white;
-      background: rgba(0, 0, 0, 0.2);
-      height: 3em;
-      line-height: 3em;
-    }
-  }
 
-  @media (min-width: 576px) and (max-width: 767px) {
-    width: 47%;
-    &:nth-of-type(2n) {
-    // margin-right: 0;
-    }
-    &:nth-of-type(2n + 1) {
-      //margin-left: 0;
-    }
-  }
-  @media (min-width: 768px) and (max-width: 991px) {
-    width: 32%;
-    &:nth-of-type(3n) {
-      // margin-right: 0;
-    }
-    &:nth-of-type(3n + 1) {
-      // margin-left: 0;
-    }
-  }
-  @media (min-width: 992px) {
-    width: 23.5%;
-    &:nth-of-type(4n) {
-      margin-right: 0;
-    }
-    &:nth-of-type(4n + 1) {
-      margin-left: 0;
-    }
-  }
-}
 </style>

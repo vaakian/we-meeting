@@ -64,6 +64,7 @@ import { mapMutations } from 'vuex';
 import uuid from 'uuid/v4';
 import Icon from './Icon';
 import { Message } from 'element-ui';
+import { randomName } from '../uitls';
 // 两个tab：
 //    加入房间：有url自动填，无责留空。
 //    创建会议：不显示房间号，只有名字，后面自动生成。
@@ -71,23 +72,12 @@ export default {
   components: { Icon },
   name: 'home',
   data() {
-    const names = [
-      '刘一',
-      '陈二',
-      '张三',
-      '李四',
-      '王五',
-      '赵六',
-      '孙七',
-      '周八',
-      '吴九',
-      '郑十'
-    ];
+    const names = [];
 
     return {
       activeName: 'join',
       room: this.$route.query.room,
-      name: names[Math.floor(Math.random() * 10)]
+      name: randomName()
     };
   },
   methods: {

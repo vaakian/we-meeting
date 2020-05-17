@@ -61,7 +61,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-
+import MD5 from ''
 export default {
   props: ['nohandler'],
   data() {
@@ -118,7 +118,9 @@ export default {
     },
     currentTime() {
       const date = new Date();
-      return `${date.getHours()}:${date.getMinutes()}`;
+      const hour = date.getHours();
+      const min = date.getMinutes();
+      return `${hour < 10 ? '0' + hour : hour}:${min < 10 ? '0' + min : min}`;
     }
   },
   updated() {
@@ -144,6 +146,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$contentWidth: calc(100% - 140px);
 .chat {
   height: 55vh;
   display: flex;
@@ -174,7 +177,7 @@ export default {
       width: 100%;
       .chat__content__left {
         min-width: none;
-        max-width: calc(100% - 100px);
+        max-width: $contentWidth;
       }
       .chat__content__right {
         max-width: none;
@@ -191,7 +194,7 @@ export default {
     &__left,
     &__right {
       display: inline-block;
-      max-width: calc(100% - 100px);
+      max-width: $contentWidth;
       text-align: left;
     }
     &__left {
@@ -209,7 +212,6 @@ export default {
     }
     &__nick {
       color: #4095f0;
-      font-size: 18px;
       font-weight: bold;
     }
     &__text {
