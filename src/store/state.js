@@ -6,7 +6,8 @@ export default {
     muted: false,
     paused: false,
     screenSharing: false,
-    showChat: false
+    showChat: false,
+    showControls: true
   },
   clients: [],
   messages: [],

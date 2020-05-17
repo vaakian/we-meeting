@@ -1,10 +1,16 @@
 <template>
-  <div class="controls" :style="{'top': showControl ? '10px':'-60px'}">
-    <el-menu default-active="1-4-1" class="controls__menu" mode="horizontal" :collapse="false">
+  <div class="controls" :style="{'top': state.showControls ? '10px':'-60px'}">
+    <el-menu
+      default-active="1-4-1"
+      active-text-color="#409eff"
+      class="controls__menu"
+      mode="horizontal"
+      :collapse="false"
+    >
       <el-row>
         <!-- 电脑端 -->
         <el-col :xs="0" :sm="20" :md="20" :lg="20" :xl="20">
-          <el-menu-item>
+          <el-menu-item style="padding-left: 8px; margin-bottom: 2px">
             <div>
               <el-button
                 icon="el-icon-headset"
@@ -63,7 +69,7 @@
         </el-col>
         <!-- 移动端 -->
         <el-col class="controls__mobile" :xs="12" :sm="0" :md="0" :lg="0" :xl="0">
-          <el-dropdown trigger="click" style="margin: 9px 0 0 10px;">
+          <el-dropdown trigger="click" style="margin: 6px 0 0 10px;">
             <el-button type="primary" icon="el-icon-phone-outline" round>视频操作</el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
@@ -141,12 +147,12 @@
     </el-menu>
 
     <!-- 收起、放下按钮 -->
-    <div :class="{'controls__fold':true, 'controls__folded': !showControl}">
+    <div :class="{'controls__fold':true, 'controls__folded': !state.showControls}">
       <el-button
         class="controls__fold__btn"
-        :icon="showControl ? 'el-icon-top':'el-icon-bottom'"
-        :type="showControl ? 'success': 'primary'"
-        @click="showControl = !showControl"
+        :icon="state.showControls ? 'el-icon-top':'el-icon-bottom'"
+        :type="state.showControls ? 'danger': 'primary'"
+        @click="setShowControls(!state.showControls)"
         circle
       ></el-button>
     </div>
@@ -159,33 +165,31 @@ import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   components: { Chat },
-  data() {
-    return {
-      showControl: true
-    };
+  computed: {
+    ...mapGetters({
+      state: 'getState',
+      messages: 'getMessages'
+    })
   },
   methods: {
     ...mapMutations({
       setMuted: 'setMuted',
       setPaused: 'setPaused',
       setScreenSharing: 'setScreenSharing',
-      setShowChat: 'setShowChat'
+      setShowChat: 'setShowChat',
+      setShowControls: 'setShowControls'
     }),
     muteMe() {
-      window.webrtc.mute();
       this.setMuted(true);
     },
 
     unmuteMe() {
-      window.webrtc.unmute();
       this.setMuted(false);
     },
     pauseMe() {
-      window.webrtc.pauseVideo();
       this.setPaused(true);
     },
     unpauseMe() {
-      window.webrtc.resumeVideo();
       this.setPaused(false);
     },
     shareScreen() {
@@ -212,88 +216,27 @@ export default {
       this.setScreenSharing(false);
     }
   },
-  computed: {
-    ...mapGetters({
-      state: 'getState',
-      messages: 'getMessages'
-    })
+  watch: {
+    'state.muted': {
+      handler: val => {
+        console.log('执行了！！！');
+        if (val) window.webrtc.mute();
+        else window.webrtc.unmute();
+      },
+      immediate: true
+    },
+    'state.paused': {
+      handler: val => {
+        console.log('也执行了！！');
+        if (val) window.webrtc.pauseVideo();
+        else window.webrtc.resumeVideo();
+      },
+      immediate: true
+    }
   }
 };
 </script>
 
 <style lang="scss">
-.controls {
-  // top -65px;
-  transition: 0.3s;
-  position: absolute;
-  width: 100%;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 98%;
-  max-width: 650px;
-  border-radius: 13px;
-  z-index: 20;
-  .el-button.is-round {
-    border-radius: 13px !important;
-  }
-  &:hover &__fold {
-    display: inline-block;
-    bottom: -44px;
-  }
-  &__fold {
-    width: 100%;
-    transition: 0.3s;
-    position: absolute;
-    bottom: 0;
-    z-index: -1;
-    &__btn {
-      transform: translateX(-50%);
-      margin-left: 50% !important;
-    }
-  }
-  &__folded {
-    bottom: -44px;
-  }
-  &__chat {
-    width: 600px;
-    @media screen and(max-width: 620px) {
-      width: 98vw;
-    }
-  }
-  &__menu {
-    border-radius: 13px;
-    overflow: hidden;
-  }
-  &__mobile {
-  }
-  .el-menu-item .is-round i {
-    color: white;
-  }
-  .el-badge__content {
-    top: 15px !important;
-  }
-  &__off {
-    background: red;
-  }
-  &__item {
-    font-weight: 600;
-    flex: 1;
-    padding: 10px;
-    border-right: 1px solid #0e83dc;
-  }
-
-  &__link {
-    color: #fff;
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    height: 100%;
-    width: 100%;
-  }
-  .disabled {
-    background: #999;
-    color: #ccc;
-  }
-}
+@import '../../../assets/styles/controls';
 </style>

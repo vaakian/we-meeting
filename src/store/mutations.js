@@ -7,7 +7,9 @@ export const setMeName = (state, name) => {
 export const setShowChat = (state, val) => {
   state.state.showChat = val;
 }
-
+export const setShowControls = (state, val) => {
+  state.state.showControls = val;
+}
 export const setMuted = (state, value) => {
   state.state.muted = value
 }

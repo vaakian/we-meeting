@@ -26,17 +26,33 @@
 
 <style>
   .el-dropdown-menu .el-divider--horizontal {
-    margin: 10px 0 !important;
-
+    margin: 10px auto !important;
+    width: 70%;
   }
 
   .el-dropdown-menu {
+    border-radius: 13px;
     text-align: center;
   }
 
-  .el-menu-item:hover {
+  .el-menu-item:focus,
+  .el-col:focus,
+  .el-menu-item:hover,
+  .el-popover__reference:hover {
     outline: none;
     border: none;
+    background: none;
+  }
+  .el-popover__reference {
+    font-size: 18px;
+  }
+  .el-icon-loading {
+    font-size: 45px !important;
+
+  }
+
+  .el-loading-text {
+    font-size: 25px !important;
   }
 </style>
 

@@ -247,7 +247,7 @@ $contentWidth: calc(100% - 140px);
     width: 100%;
     border-radius: 5px;
     .el-textarea {
-      width: calc(100% - 60px);
+      width: calc(100% - 65px);
       display: inline-block;
     }
     button {

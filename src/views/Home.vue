@@ -4,7 +4,7 @@
       <Icon />
       <div class="home__content">
         <h1>We Meeting</h1>
-        <h2>——基于WebRTC的多人实时会议系统</h2>
+        <h3>——基于WebRTC的多人实时会议系统</h3>
         <el-tabs style="margin-top: 20px" v-model="activeName" type="border-card">
           <el-tab-pane label="加入会议" name="join">
             <form action="#" class="join" @submit.prevent="join">
@@ -16,6 +16,8 @@
                 v-model.trim="room"
                 placeholder="会议房间号"
                 prefix-icon="el-icon-service"
+                size="large"
+                maxlength="36"
               />
               <label for="name" class="label">给自己取一个名字吧</label>
               <el-input
@@ -25,7 +27,11 @@
                 v-model.trim="name"
                 placeholder="您在房间内的昵称"
                 prefix-icon="el-icon-user"
+                size="large"
+                maxlength="5"
+                minlength="1"
               />
+              <VideoSwitch />
               <el-button type="primary" @click="join" class="button">加入会议</el-button>
             </form>
           </el-tab-pane>
@@ -39,6 +45,7 @@
                 id="room"
                 v-model.trim="room"
                 prefix-icon="el-icon-service"
+                size="large"
                 disabled
               />
               <label for="name" class="label">给自己取一个名字吧</label>
@@ -49,7 +56,9 @@
                 v-model.trim="name"
                 placeholder="您在房间内的昵称"
                 prefix-icon="el-icon-user"
+                size="large"
               />
+              <VideoSwitch />
               <el-button type="primary" @click="join" class="button">创建会议</el-button>
             </form>
           </el-tab-pane>
@@ -63,19 +72,22 @@
 import { mapMutations } from 'vuex';
 import uuid from 'uuid/v4';
 import Icon from '../components/Icon';
+import VideoSwitch from '../components/Video-switch';
 import { Message } from 'element-ui';
 import { randomName } from '../uitls';
+
 // 两个tab：
 //    加入房间：有url自动填，无责留空。
 //    创建会议：不显示房间号，只有名字，后面自动生成。
 export default {
-  components: { Icon },
+  components: { Icon, VideoSwitch },
   name: 'home',
   data() {
     return {
       activeName: 'join',
       room: this.$route.query.room,
-      name: randomName()
+      name: randomName(),
+      value: ''
     };
   },
   methods: {
@@ -114,9 +126,9 @@ export default {
 
 <style lang="scss">
 .home-bg {
-  width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(#cfe7ff, #017dff);
+  padding: 20px;
 }
 
 .home {
@@ -124,35 +136,52 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  width: 80%;
-  height: 80vh;
-  position: absolute;
-  top: 50vh;
-  left: 50vw;
-  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 550px;
+  margin-bottom: 20px;
+  min-height: 80vh;
+  margin-top: 10vh;
+  margin-left: 50%;
+  transform: translateX(-50%);
   border-radius: 20px;
   background: white;
   box-shadow: 0 32px 62px 0 rgba(0, 0, 0, 0.3);
-  @media screen and (max-width: 800px) {
-    width: 90%;
-    padding: 20px;
+  h1 {
+    text-align: center;
+    text-shadow: 4px 0px #a9d3ff;
+    font-weight: bold;
+    background-clip: text;
+    font-size: 2.3em;
+  }
+  h3 {
+    color: 444;
+    text-align: right;
+    font-style: italic;
+  }
+  @media screen and (max-width: 550px) {
+    padding: 15px;
+    margin-top: 60px;
   }
   .button {
     margin-top: 20px;
+    width: 100%;
   }
   .label {
     color: #999;
   }
   &__content {
+    max-width: 550px;
     @media screen and(min-width: 720px) {
-      transform: scale(1.5);
+      // width: 80%;
+      // transform: scale(1.3);
     }
   }
 }
 
 .join {
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
+  margin: 0 auto;
+  font-size: 18px;
 }
 </style>

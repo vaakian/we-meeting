@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 export default {
   props: ['client'],
   data() {
@@ -40,8 +41,10 @@ export default {
     };
   },
   methods: {
+    ...mapMutations({
+      setShowControls: 'setShowControls'
+    }),
     toggleZoomed() {
-      console.log('放大全屏');
       this.isZoomed = !this.isZoomed;
     },
     toggleMute() {
@@ -88,8 +91,9 @@ export default {
   },
   watch: {
     // 移动端不许点击
-    isZoomed() {
+    isZoomed(val) {
       this.client.video.play();
+      this.setShowControls(!val);
     }
   }
 };
@@ -98,7 +102,7 @@ export default {
 <style lang="scss">
 .person {
   position: relative;
-  width: 100%;
+  width: 96.2%;
   display: inline-block;
   transition: 0.3s;
   margin: 5px;
@@ -153,10 +157,12 @@ export default {
     border-radius: 6px;
     overflow: hidden;
     position: relative;
-    background: url('/static/nocam.png') white;
+    background:rgb(255, 255, 255);
     background-size: cover;
     .person__name {
       padding-left: 2em;
+      box-sizing: border-box;
+      border-radius: 22px 22px 0 0;
       font-weight: 600;
       position: absolute;
       bottom: 0em;

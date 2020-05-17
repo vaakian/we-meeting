@@ -12,7 +12,7 @@
           </div>
         </div>
         <!-- 自己的摄像头 -->
-        <div class="person">
+        <div v-show="chatable" class="person">
           <div class="person__video">
             <video ref="meVideo" src></video>
             <div class="person__name">
@@ -78,6 +78,7 @@ export default {
         localVideoEl: '',
         remoteVideosEl: '',
         autoRequestMedia: false,
+        adjustPeerVolume: true,
         nick: this.state.name,
         url: 'https://mohan.z-os.cn',
         peerConnectionConfig: {
@@ -148,6 +149,8 @@ export default {
           video: {
             // width: { max: 1080, min: 720 },
             // height: { max: 720, min: 480 },
+            width: 640,
+            height: 480,
             frameRate: { ideal: 7, max: 10 }
           },
           audio: true
@@ -161,8 +164,8 @@ export default {
         console.log('只有摄像头');
         media = {
           video: {
-            // width: 855,
-            // height: 780,
+            width: 640,
+            height: 480,
             frameRate: { ideal: 7, max: 10 }
           },
           audio: false
@@ -175,6 +178,28 @@ export default {
       console.log({ media });
       this.initMedia(media);
     });
+
+    window.$globaLoadingInstance = this.$loading({
+      lock: true,
+      text: '会议初始化中…',
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.8)'
+    });
+
+    setTimeout(() => {
+      window.$globaLoadingInstance.close();
+    }, 10000);
+  },
+  watch: {
+    chatable(val) {
+      if (val) window.$globaLoadingInstance.close();
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    window.webrtc.leaveRoom();
+    window.webrtc.stopLocalVideo();
+    window.webrtc.stopScreenShare();
+    next();
   }
 };
 </script>

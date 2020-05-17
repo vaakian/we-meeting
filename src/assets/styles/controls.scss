@@ -1,0 +1,79 @@
+.controls {
+  // top -65px;
+  transition: 0.3s;
+  position: absolute;
+  width: 100%;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 98%;
+  max-width: 700px;
+  border-radius: 13px;
+  z-index: 20;
+  .el-button.is-round {
+    border-radius: 13px !important;
+  }
+  &:hover &__fold {
+    display: inline-block;
+    bottom: -48px;
+  }
+  &__fold {
+    width: 100%;
+    transition: 0.3s;
+    position: absolute;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0.15;
+    &:hover {
+      opacity: 1;
+    }
+    &__btn {
+      transform: translateX(-50%);
+      margin-left: 50% !important;
+    }
+  }
+  &__folded {
+    bottom: -44px;
+    opacity: 0;
+  }
+  &__chat {
+    width: 600px;
+    @media screen and(max-width: 620px) {
+      width: 98vw;
+    }
+  }
+  &__menu {
+    border-radius: 13px;
+    overflow: hidden;
+  }
+  &__mobile {
+  }
+  .el-menu-item .is-round i {
+    color: white;
+  }
+  .el-badge__content {
+    top: 15px !important;
+  }
+  &__off {
+    background: red;
+  }
+  &__item {
+    font-weight: 600;
+    flex: 1;
+    padding: 10px;
+    border-right: 1px solid #0e83dc;
+  }
+
+  &__link {
+    color: #fff;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    height: 100%;
+    width: 100%;
+  }
+  .disabled {
+    background: #999;
+    color: #ccc;
+  }
+}
