@@ -1,22 +1,33 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/Home'
+import RoomIndex from '../views/room/Index'
+import store from '../store'
 
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/room/:room',
+    name: 'room',
+    component: RoomIndex,
+    props: true,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters.getState.name) {
+        next({
+          name: 'home',
+          query: {
+            room: to.params.room
+          }
+        })
+      }
+      next()
+    }
   }
 ]
 
@@ -25,5 +36,4 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
-export default router
+export default router;
