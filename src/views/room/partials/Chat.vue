@@ -107,7 +107,7 @@ export default {
     receiveMessage(message) {
       this.$message({
         dangerouslyUseHTMLString: true,
-        iconClass: 'el-icon-message',
+        iconClass: 'el-icon-chat-dot-round',
         message: `<span style="color: #4095f0"> ${message.nick}</span> 发来一条消息`,
         offset: 70
       });

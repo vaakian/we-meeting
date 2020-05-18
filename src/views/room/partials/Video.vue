@@ -92,14 +92,15 @@ export default {
     // this.$refs.person.play();
     this.client.video.play();
 
-    // 通知加入
-    this.$message({
-      dangerouslyUseHTMLString: true,
-      message: `<strong style="color: #409EFF"> ${peer.nick}</strong> ${
-        peer.type === 'video' ? '加入了会议' : '开启了屏幕共享'
-      }`,
-      type: 'warning'
-    });
+    // 通知加入，加入前2秒不通知，是已存在的用户
+    window.$allowJoinMessage &&
+      this.$message({
+        dangerouslyUseHTMLString: true,
+        message: `<strong style="color: #409EFF"> ${peer.nick}</strong> ${
+          peer.type === 'video' ? '加入了会议' : '开启了屏幕共享'
+        }`,
+        type: 'warning'
+      });
   },
   beforeDestroy() {
     const { peer } = this.client;

@@ -3,7 +3,7 @@
     <div class="video-side">
       <div class="people" id="people">
         <!-- 自己的共享屏幕 -->
-        <div class="person  person__show" v-show="state.screenSharing">
+        <div class="person person__show" v-show="state.screenSharing">
           <div class="person__video">
             <video autoplay ref="meScreen"></video>
             <div class="person__name">
@@ -194,7 +194,15 @@ export default {
   },
   watch: {
     chatable(val) {
-      if (val) window.$globaLoadingInstance.close();
+      if (val) {
+        // 刚加入不允许提示用户加入
+        window.$allowJoinMessage = false;
+        setTimeout(() => {
+          window.$allowJoinMessage = true;
+        }, 2000);
+        // 关闭全局加载
+        window.$globaLoadingInstance.close();
+      }
     }
   },
   beforeRouteLeave(to, from, next) {
