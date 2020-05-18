@@ -8,32 +8,32 @@
     >
       <div ref="person"></div>
       <div class="person__control">
-        <el-tooltip
+        <!-- <el-tooltip
           class="item"
           :content="isMuted?'解除禁音':'禁音'"
           :offset="isZoomed?120:10"
           placement="bottom"
-        >
-          <div class="person__control__volume">
-            <el-button
-              :type="isMuted ? 'primary': 'danger'"
-              :icon="isMuted ? 'el-icon-turn-off-microphone':'el-icon-microphone'"
-              @click.stop="toggleMute"
-              circle
-            ></el-button>
-            <el-slider
-              class="person__control__volume--slider"
-              v-model="volume"
-              :show-tooltip="false"
-              size="medium"
-              vertical
-              height="100px"
-            ></el-slider>
-          </div>
-        </el-tooltip>
-        <el-tooltip class="item" :content="isZoomed?'关闭全屏':'页内全屏'" placement="bottom">
-          <el-button type="success" icon="el-icon-crop" @click="toggleZoomed" circle></el-button>
-        </el-tooltip>
+        >-->
+        <div class="person__control__volume">
+          <el-button
+            :type="isMuted ? 'primary': 'danger'"
+            :icon="isMuted ? 'el-icon-turn-off-microphone':'el-icon-microphone'"
+            @click.stop="toggleMute"
+            circle
+          ></el-button>
+          <el-slider
+            class="person__control__volume--slider"
+            v-model="volume"
+            :show-tooltip="false"
+            size="medium"
+            vertical
+            height="100px"
+          ></el-slider>
+        </div>
+        <!-- </el-tooltip> -->
+        <!-- <el-tooltip class="item" :content="isZoomed?'关闭全屏':'页内全屏'" placement="bottom"> -->
+        <el-button type="success" icon="el-icon-crop" @click="toggleZoomed" circle></el-button>
+        <!-- </el-tooltip> -->
 
         <el-tooltip class="item" content="全屏" placement="bottom">
           <el-button type="success" icon="el-icon-full-screen" @click="toggleFullScreen" circle></el-button>
@@ -71,8 +71,8 @@ export default {
     toggleMute() {
       let muted = this.volume == 0;
       this.volume = muted ? 85 : 0;
-      let stream = this.client.peer.stream;
-      stream.getAudioTracks()[0].enabled = !muted;
+      // let stream = this.client.peer.stream;
+      // stream.getAudioTracks()[0].enabled = !muted;
     },
     toggleFullScreen() {
       const video = this.client.video;
@@ -120,6 +120,13 @@ export default {
     },
     volume(val) {
       this.client.video.volume = val / 100;
+      let stream = this.client.peer.stream;
+      if (this.isMuted) {
+        // ios端只允许使用禁音
+        stream.getAudioTracks()[0].enabled = false;
+      } else {
+        stream.getAudioTracks()[0].enabled = true;
+      }
     }
   },
   computed: {
