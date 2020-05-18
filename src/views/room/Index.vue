@@ -3,7 +3,7 @@
     <div class="video-side">
       <div class="people" id="people">
         <!-- 自己的共享屏幕 -->
-        <div class="person" v-show="state.screenSharing">
+        <div class="person  person__show" v-show="state.screenSharing">
           <div class="person__video">
             <video autoplay ref="meScreen"></video>
             <div class="person__name">
@@ -13,7 +13,7 @@
         </div>
         <!-- 自己的摄像头 -->
         <div v-show="chatable" class="person">
-          <div class="person__video">
+          <div class="person__video person__show">
             <video ref="meVideo" src></video>
             <div class="person__name">
               <span style="color: red">(自己)</span>
@@ -131,6 +131,8 @@ export default {
       window.webrtc.on('localStream', stream => {
         console.log('添加本地流');
         let attachMediaStream = require('attachmediastream');
+        // 关闭本地流声音 避免回音
+        stream.getAudioTracks()[0].enabled = false;
         attachMediaStream(stream, this.$refs.meVideo, {
           autoplay: true,
           mirror: true,
@@ -206,9 +208,12 @@ export default {
 
 <style lang="scss">
 .room {
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
-  background: linear-gradient(#cfe7ff, #cee7f8);
+  // background: linear-gradient(#cfe7ff, #cee7f8);
+  // background-image: linear-gradient(-225deg, #7de2fc 0%, #b9b6e5 100%);
+  background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+  background-image: linear-gradient(to top, #6a85b6 0%, #bac8e0 100%);
   //background: white;
   .video-side {
     display: inline-block;

@@ -5,64 +5,72 @@
       <div class="home__content">
         <h1>We Meeting</h1>
         <h3>——基于WebRTC的多人实时会议系统</h3>
-        <el-tabs style="margin-top: 20px" v-model="activeName" type="border-card">
-          <el-tab-pane label="加入会议" name="join">
-            <form action="#" class="join" @submit.prevent="join">
-              <label for="room" class="label">房间号</label>
-              <el-input
-                type="text"
-                name="room"
-                id="room"
-                v-model.trim="room"
-                placeholder="会议房间号"
-                prefix-icon="el-icon-service"
-                size="large"
-                maxlength="36"
-              />
-              <label for="name" class="label">给自己取一个名字吧</label>
-              <el-input
-                type="text"
-                name="name"
-                id="name"
-                v-model.trim="name"
-                placeholder="您在房间内的昵称"
-                prefix-icon="el-icon-user"
-                size="large"
-                maxlength="5"
-                minlength="1"
-              />
-              <VideoSwitch />
-              <el-button type="primary" @click="join" class="button">加入会议</el-button>
-            </form>
-          </el-tab-pane>
-          <!-- 创建会议 -->
-          <el-tab-pane label="创建会议" name="create">
-            <form action="#" class="join" @submit.prevent="join">
-              <label for="room" class="label">房间号(随机生成)</label>
-              <el-input
-                type="text"
-                name="room"
-                id="room"
-                v-model.trim="room"
-                prefix-icon="el-icon-service"
-                size="large"
-                disabled
-              />
-              <label for="name" class="label">给自己取一个名字吧</label>
-              <el-input
-                type="text"
-                name="name"
-                id="name"
-                v-model.trim="name"
-                placeholder="您在房间内的昵称"
-                prefix-icon="el-icon-user"
-                size="large"
-              />
-              <VideoSwitch />
-              <el-button type="primary" @click="join" class="button">创建会议</el-button>
-            </form>
-          </el-tab-pane>
-        </el-tabs>
+        <div ref="homeForm">
+          <el-tabs style="margin-top: 20px" v-model="activeName" type="border-card">
+            <el-tab-pane name="join">
+              <span slot="label">
+                <i class="el-icon-place" /> 加入会议
+              </span>
+              <form action="#" class="join" @submit.prevent="join">
+                <span class="home__content__label">房间号</span>
+                <el-input
+                  type="text"
+                  name="room"
+                  id="room"
+                  v-model.trim="room"
+                  placeholder="会议房间号"
+                  prefix-icon="el-icon-service"
+                  size="large"
+                  maxlength="36"
+                />
+                <span class="home__content__label">给自己起个名字吧</span>
+                <el-input
+                  type="text"
+                  name="name"
+                  id="name"
+                  v-model.trim="name"
+                  placeholder="您在房间内的昵称"
+                  prefix-icon="el-icon-user"
+                  size="large"
+                  maxlength="5"
+                  minlength="1"
+                />
+                <VideoSwitch />
+                <el-button type="primary" @click="join" class="button">加入会议</el-button>
+              </form>
+            </el-tab-pane>
+            <!-- 创建会议 -->
+            <el-tab-pane name="create">
+              <span slot="label">
+                <i class="el-icon-data-line" /> 创建会议
+              </span>
+              <form action="#" class="join" @submit.prevent="join">
+                <span class="home__content__label">房间号(随机分配)</span>
+                <el-input
+                  type="text"
+                  name="room"
+                  id="room"
+                  v-model.trim="room"
+                  prefix-icon="el-icon-service"
+                  size="large"
+                  disabled
+                />
+                <span class="home__content__label">给自己起个名字吧</span>
+                <el-input
+                  type="text"
+                  name="name"
+                  id="name"
+                  v-model.trim="name"
+                  placeholder="您在房间内的昵称"
+                  prefix-icon="el-icon-user"
+                  size="large"
+                />
+                <VideoSwitch />
+                <el-button type="primary" @click="join" class="button">创建会议</el-button>
+              </form>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
       </div>
     </div>
   </div>
@@ -75,7 +83,7 @@ import Icon from '../components/Icon';
 import VideoSwitch from '../components/Video-switch';
 import { Message } from 'element-ui';
 import { randomName } from '../uitls';
-import Adapter from 'webrtc-adapter';
+// import Adapter from 'webrtc-adapter';
 // 两个tab：
 //    加入房间：有url自动填，无责留空。
 //    创建会议：不显示房间号，只有名字，后面自动生成。
@@ -87,7 +95,8 @@ export default {
       activeName: 'join',
       room: this.$route.query.room,
       name: randomName(),
-      value: ''
+      value: '',
+      denied: false
     };
   },
   methods: {
@@ -112,11 +121,32 @@ export default {
       });
     },
     checkIfBrowserSupportWebRTC() {
-      alert(Adapter.browserDetails.browser);
+      const _vm = this;
+      if (
+        location.protocol === 'http:' &&
+        ['127.0.0.1', 'localhost'].indexOf(location.host.split(':')[0]) === -1
+      ) {
+        _vm.$alert('请通过HTTPs访问本系统', '错误', {
+          confirmButtonText: '确定',
+          center: true,
+          type: 'error'
+        });
+        _vm.$loading({
+          target: _vm.$refs.homeForm,
+          icon: 'el-icon-error',
+          background: 'rgba(255,255,255, 0.7)'
+        });
+        return;
+      }
+      // console.log(Adapter.browserDetails.browser);
       try {
-        navigator.mediaDevices.enumerateDevices();
+        console.log(navigator.mediaDevices);
+        navigator.mediaDevices.getSupportedConstraints();
       } catch (err) {
-        this.$message.warning(err);
+        this.$message.warning({
+          message: err.message,
+          duration: 100000
+        });
       }
     }
   },
@@ -139,6 +169,13 @@ export default {
 .home-bg {
   min-height: 100vh;
   background: linear-gradient(#cfe7ff, #017dff);
+  background-image: linear-gradient(
+    -225deg,
+    #5d9fff 0%,
+    #b8dcff 48%,
+    #6bbbff 100%
+  );
+  //background-image: linear-gradient(-225deg, #22E1FF 0%, #3256a5 48%, #625EB1 100%);
   padding: 10px;
 }
 
@@ -157,31 +194,38 @@ export default {
   border-radius: 20px;
   background: white;
   box-shadow: 0 32px 62px 0 rgba(0, 0, 0, 0.3);
-  h1 {
-    text-align: center;
-    text-shadow: 4px 0px #a9d3ff;
-    font-weight: bold;
-    background-clip: text;
-    font-size: 3.3em;
-  }
-  h3 {
-    color: 444;
-    text-align: right;
-    font-style: italic;
-  }
-  @media screen and (max-width: 550px) {
-    padding: 15px;
-    margin-top: 60px;
-  }
-  .button {
-    margin-top: 20px;
-    width: 100%;
-  }
-  .label {
-    color: #999;
-  }
+
   &__content {
     max-width: 550px;
+    h1 {
+      text-align: center;
+      text-shadow: 4px 0px #a9d3ff;
+      font-weight: bold;
+      background-clip: text;
+      font-size: 3.3em;
+    }
+    h3 {
+      color: 444;
+      text-align: right;
+      font-style: italic;
+    }
+    @media screen and (max-width: 550px) {
+      padding: 15px;
+      margin-top: 60px;
+    }
+    .button {
+      margin-top: 20px;
+      width: 100%;
+    }
+    &__label {
+      padding: 5px;
+      display: inline-block;
+      color: #627e9a;
+      // background: #f7f5f5;
+      border-radius: 0 13px 13px 0;
+      margin-top: 10px;
+      font-size: 16px;
+    }
     @media screen and(min-width: 720px) {
       // width: 80%;
       // transform: scale(1.3);

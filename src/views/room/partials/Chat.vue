@@ -149,13 +149,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $contentWidth: calc(100% - 140px);
 .chat {
   height: 55vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   .avatar {
     width: 60px;
     height: 60px;
@@ -230,7 +231,7 @@ $contentWidth: calc(100% - 140px);
       padding: 10px 10px;
       border-radius: 5px;
       img {
-        max-width: 100%;
+        max-width: 100% !important;
       }
     }
     @media screen and (max-width: 450px) {

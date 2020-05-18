@@ -37,11 +37,14 @@ export default {
   }
   &__audio,
   &__video {
+    span {
+      margin-right: 3px;
+    }
     display: inline-block;
-    color: #409eff;
+    color: #627e9a;
     background: #f7f5f5;
     border-radius: 13px;
-    padding: 5px 8px;
+    padding: 5px 7px;
   }
 }
 </style>

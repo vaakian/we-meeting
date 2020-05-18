@@ -2,29 +2,6 @@
 
 移动端 操作按钮分（操作、聊天）
 
-+ [x] loading
-
-+ [ ] home界面图标
-
-+ [ ] 设置框，姓名是否常驻、全局音量: setVolumeForAll(volume)
-
-+ [ ] @功能
-
-+ [ ] 修复tooltip不工作
-
-+ [ ] 屏幕分享还未准备好时，显示屏幕分享加载中
-
-+ [ ] 点赞功能 提示完就无了 不保存
-
-+ [x] 视频设置成 `position: fix` 全屏 （不完美
-
-+ [ ] 画板 [fabric](https://github.com/fabricjs/fabric.js)
-
-+ [ ] 视频底部问题
-
-+ [x] 无摄像头，申请语音
-
-+ [ ] 按钮关闭 变色
 
 + [ ] 分享会议 
    
@@ -32,7 +9,31 @@
 
    2. 导航栏常驻分享按钮，使用popper
 
-+ [ ] 对单个用户关闭声音
++ [x] loading
+
++ [x] home界面图标
+
++ [ ] 设置框，姓名是否常驻、全局音量: setVolumeForAll(volume)
+
++ [ ] ~~@功能~~
+
++ [x] 修复tooltip不工作
+
++ [ ] 屏幕分享还未准备好时，显示屏幕分享加载中
+
++ [ ] 点赞功能 提示完就无了 不保存
+
++ [x] 视频设置成 `position: fix` 全屏(有bug)
+
++ [ ] 画板 [fabric](https://github.com/fabricjs/fabric.js)
+
++ [x] 视频底部问题
+
++ [x] 无摄像头，申请语音
+
++ [x] 按钮关闭 变色
+
++ [x] 对单个用户关闭声音
 
 + [x] 放大缩小 bug 动画问题
 
@@ -59,6 +60,18 @@
 + [x] 进网页若url没有room参数，则有两种选项：输入已有房间号、新建会议（生成会议号、二维码、分析）
 
 + [ ] 默认host全屏
+
+## 更新时需要修改
+
+attachmediastream 导入adapter，default
+simplewebrtc 432行，清空数组
+409行：
+
+```js
+SimpleWebRTC.prototype.shareScreen = function (constraints, cb) {
+    this.webrtc.startScreenShare(constraints, cb);
+};
+```
 
 ## Project setup
 ```

@@ -1,21 +1,41 @@
 <template>
   <div :class="{'person': true, 'person__zoom': isZoomed}">
-    <div class="person__video video__reverse">
+    <div
+      :class="{'person__video': true, 'video__reverse':true, 'person__show': showInfoBar}"
+      @mouseover.stop="showInfoBar = true"
+      @mouseleave.stop="showInfoBar = false"
+      @click.stop="showInfoBar=!showInfoBar"
+    >
       <div ref="person"></div>
       <div class="person__control">
-        <el-tooltip class="item" :content="isMuted?'解除禁音':'禁音'" placement="bottom-end">
-          <el-button
-            :type="isMuted ? 'primary': 'danger'"
-            icon="el-icon-headset"
-            @click="toggleMute"
-            circle
-          ></el-button>
+        <el-tooltip
+          class="item"
+          :content="isMuted?'解除禁音':'禁音'"
+          :offset="isZoomed?120:10"
+          placement="bottom"
+        >
+          <div class="person__control__volume">
+            <el-button
+              :type="isMuted ? 'primary': 'danger'"
+              :icon="isMuted ? 'el-icon-turn-off-microphone':'el-icon-microphone'"
+              @click.stop="toggleMute"
+              circle
+            ></el-button>
+            <el-slider
+              class="person__control__volume--slider"
+              v-model="volume"
+              :show-tooltip="false"
+              size="medium"
+              vertical
+              height="100px"
+            ></el-slider>
+          </div>
         </el-tooltip>
-        <el-tooltip class="item" :content="isZoomed?'关闭全屏':'页内全屏'" placement="bottom-end">
+        <el-tooltip class="item" :content="isZoomed?'关闭全屏':'页内全屏'" placement="bottom">
           <el-button type="success" icon="el-icon-crop" @click="toggleZoomed" circle></el-button>
         </el-tooltip>
 
-        <el-tooltip class="item" content="全屏" placement="bottom-end">
+        <el-tooltip class="item" content="全屏" placement="bottom">
           <el-button type="success" icon="el-icon-full-screen" @click="toggleFullScreen" circle></el-button>
         </el-tooltip>
       </div>
@@ -37,7 +57,8 @@ export default {
   data() {
     return {
       isZoomed: false,
-      isMuted: false
+      showInfoBar: false,
+      volume: 100
     };
   },
   methods: {
@@ -48,17 +69,18 @@ export default {
       this.isZoomed = !this.isZoomed;
     },
     toggleMute() {
-      this.isMuted = !this.isMuted;
+      let muted = this.volume == 0;
+      this.volume = muted ? 85 : 0;
       let stream = this.client.peer.stream;
-      stream.getAudioTracks()[0].enabled = !this.isMuted;
+      stream.getAudioTracks()[0].enabled = !muted;
     },
     toggleFullScreen() {
       const video = this.client.video;
       const displaying =
-        video.webkitDisplayingFullscreen || video.displayingFullscreen;
+        video.displayingFullscreen || video.webkitDisplayingFullscreen;
       const requestFullScreen =
-        video.webkitRequestFullScreen || video.requestFullScreen;
-      const exitFullScreen = video.webkitExitFullScreen || video.exitFullScreen;
+        video.requestFullScreen || video.webkitRequestFullScreen;
+      const exitFullScreen = video.exitFullScreen || video.webkitExitFullScreen;
       if (displaying) exitFullScreen.call(video);
       else requestFullScreen.call(video);
     }
@@ -94,6 +116,15 @@ export default {
     isZoomed(val) {
       this.client.video.play();
       this.setShowControls(!val);
+    },
+    volume(val) {
+      this.client.video.volume = val / 100;
+    }
+  },
+  computed: {
+    isMuted() {
+      // 改变真实声音
+      return this.volume == 0;
     }
   }
 };
@@ -107,9 +138,11 @@ export default {
   transition: 0.3s;
   margin: 5px;
   z-index: 0;
-  &:hover {
+  border-radius: 6px;
+  overflow: hidden;
+  &__show {
     .person__name {
-      height: 3.5em;
+      height: 3em !important;
     }
     .person__control {
       display: inline-block;
@@ -121,13 +154,35 @@ export default {
     bottom: 0.5em;
     right: 5px;
     z-index: 1;
+    padding-top: 60px;
+    &__volume {
+      display: inline-block;
+      position: relative;
+      margin-right: 10px;
+      &:hover &--slider {
+        display: inline-block;
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #0a0b0b88;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-radius: 5px;
+      }
+      &--slider {
+        display: none;
+      }
+    }
+
     .el-button {
-      opacity: 0.5;
+      opacity: 0.8;
       &:hover {
         opacity: 1;
       }
     }
   }
+
   &__zoom {
     position: fixed !important;
     top: 0;
@@ -135,18 +190,24 @@ export default {
     width: 100vw !important;
     height: 100vh !important;
     z-index: 10;
+    margin: 0 !important;
+    border-radius: 0 !important;
     .person__name {
-      font-size: 3em;
+      font-size: 45px !important;
     }
     .person__control {
-      transform: scale(2);
-      right: 120px;
-      bottom: 80px;
+      // transform: scale(2);
+      right: 30px;
+      bottom: 30px;
       z-index: 1;
-      font-size: 4em;
+      //font-size: 4em;
+      .is-circle {
+        height: 90px;
+        width: 90px;
+        font-size: 30px !important;
+      }
     }
     video {
-      margin-left: -5px; // 抵消person的margin
       height: 100vh !important;
       width: 100vw !important;
       background: #222;
@@ -154,21 +215,21 @@ export default {
   }
   &__video {
     box-shadow: 0 10px 25px rgba(49, 49, 49, 0.2);
-    border-radius: 6px;
-    overflow: hidden;
+
     position: relative;
-    background:rgb(255, 255, 255);
+    background: rgb(255, 255, 255);
     background-size: cover;
     .person__name {
-      padding-left: 2em;
+      padding-left: 1.5em;
+      padding-right: 1.5em;
       box-sizing: border-box;
       border-radius: 22px 22px 0 0;
       font-weight: 600;
+      font-size: 18px;
       position: absolute;
       bottom: 0em;
-      width: 100%;
       color: white;
-      background: rgba(0, 0, 0, 0.2);
+      background: #0a0b0b88;
       height: 0;
       transition: 0.3s;
       line-height: 3em;
@@ -199,10 +260,10 @@ export default {
   @media (min-width: 992px) {
     width: 23.5%;
     &:nth-of-type(4n) {
-      margin-right: 0;
+      //margin-right: 0;
     }
     &:nth-of-type(4n + 1) {
-      margin-left: 0;
+      //margin-left: 0;
     }
   }
 }
@@ -212,7 +273,7 @@ export default {
 
 .video__reverse {
   video {
-    //    transform: scaleX(-1) !important;
+    // transform: scaleX(-1) !important;
   }
 }
 </style>

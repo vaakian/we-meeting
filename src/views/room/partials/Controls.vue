@@ -9,17 +9,23 @@
     >
       <el-row>
         <!-- 电脑端 -->
-        <el-col :xs="0" :sm="20" :md="20" :lg="20" :xl="20">
+        <el-col :xs="0" :sm="18" :md="18" :lg="18" :xl="18">
           <el-menu-item style="padding-left: 8px; margin-bottom: 2px">
             <div>
               <el-button
-                icon="el-icon-headset"
+                icon="el-icon-microphone"
                 type="danger"
                 v-if="!state.muted"
                 @click="muteMe"
                 round
               >关闭麦克风</el-button>
-              <el-button icon="el-icon-headset" type="primary" v-else @click="unmuteMe" round>打开麦克风</el-button>
+              <el-button
+                icon="el-icon-turn-off-microphone"
+                type="primary"
+                v-else
+                @click="unmuteMe"
+                round
+              >打开麦克风</el-button>
               <el-divider direction="vertical"></el-divider>
               <el-button
                 icon="el-icon-camera"
@@ -36,7 +42,7 @@
                 v-if="state.screenSharing"
                 @click="stopScreenShare"
                 round
-              >取消屏幕共享</el-button>
+              >取消共享</el-button>
               <el-button
                 icon="el-icon-monitor"
                 type="primary"
@@ -47,26 +53,7 @@
             </div>
           </el-menu-item>
         </el-col>
-        <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
-          <el-menu-item style="float: right; margin-right: 20px" index="4">
-            <el-popover
-              slot="title"
-              popper-class="controls__chat"
-              placement="bottom"
-              title="聊天"
-              trigger="click"
-              @click.native="setShowChat(!state.showChat)"
-            >
-              <Chat />
-              <div slot="reference">
-                <i class="el-icon-message"></i>
-                <el-badge slot="title" :value="messages.length" :max="99">
-                  <span>聊天</span>
-                </el-badge>
-              </div>
-            </el-popover>
-          </el-menu-item>
-        </el-col>
+
         <!-- 移动端 -->
         <el-col class="controls__mobile" :xs="12" :sm="0" :md="0" :lg="0" :xl="0">
           <el-dropdown trigger="click" style="margin: 6px 0 0 10px;">
@@ -74,14 +61,14 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
                 <el-button
-                  icon="el-icon-headset"
+                  icon="el-icon-microphone"
                   type="danger"
                   v-if="!state.muted"
                   @click="muteMe"
                   round
                 >关闭麦克风</el-button>
                 <el-button
-                  icon="el-icon-headset"
+                  icon="el-icon-turn-off-microphone"
                   type="primary"
                   v-else
                   @click="unmuteMe"
@@ -125,12 +112,34 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
-        <el-col :xs="12" :sm="0" :md="0" :lg="0" :xl="0">
+        <!-- 操作 -->
+        <el-col :xs="6" :sm="3" :md="3" :lg="3" :xl="3">
+          <el-menu-item index="2">
+            <el-popover
+              slot="title"
+              popper-class="controls__tool"
+              placement="bottom"
+              title="分享会议"
+              trigger="click"
+              @click.native="setShowChat(!state.showChat)"
+            >
+              <Share />
+              <div slot="reference">
+                <i class="el-icon-share"></i>
+                <el-badge slot="title" is-dot>
+                  <span>分享</span>
+                </el-badge>
+              </div>
+            </el-popover>
+          </el-menu-item>
+        </el-col>
+        <!-- 聊天 -->
+        <el-col :xs="6" :sm="3" :md="3" :lg="3" :xl="3">
           <el-menu-item style="float: right" index="6">
             <el-popover popper-class="controls__chat" placement="bottom" title="聊天" trigger="click">
-              <Chat :nohandler="true" />
+              <Chat />
               <div slot="reference">
-                <i class="el-icon-message"></i>
+                <i class="el-icon-chat-dot-round"></i>
                 <el-badge
                   @click.native="setShowChat(!state.showChat)"
                   slot="title"
@@ -161,10 +170,11 @@
 
 <script>
 import Chat from './Chat';
+import Share from '../../../components/Share';
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  components: { Chat },
+  components: { Chat, Share },
   computed: {
     ...mapGetters({
       state: 'getState',
@@ -193,7 +203,7 @@ export default {
       this.setPaused(false);
     },
     shareScreen() {
-      window.webrtc.shareScreen(event => {
+      window.webrtc.shareScreen({ video: true, audio: true }, event => {
         if (event) {
           if (event.code === 0) {
             this.$message.error({ message: '您取消了屏幕共享', offset: 70 });
@@ -219,7 +229,6 @@ export default {
   watch: {
     'state.muted': {
       handler: val => {
-        console.log('执行了！！！');
         if (val) window.webrtc.mute();
         else window.webrtc.unmute();
       },
@@ -227,7 +236,6 @@ export default {
     },
     'state.paused': {
       handler: val => {
-        console.log('也执行了！！');
         if (val) window.webrtc.pauseVideo();
         else window.webrtc.resumeVideo();
       },
