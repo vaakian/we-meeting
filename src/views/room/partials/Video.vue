@@ -146,7 +146,9 @@ export default {
       height: 3em !important;
     }
     .person__control {
-      display: inline-block;
+      display: block;
+      white-space: nowrap;
+      width: fit-content;
     }
   }
   &__control {
@@ -155,7 +157,6 @@ export default {
     bottom: 0.5em;
     right: 5px;
     z-index: 1;
-    padding-top: 60px;
     &__volume {
       display: inline-block;
       position: relative;
@@ -195,13 +196,21 @@ export default {
     border-radius: 0 !important;
     .person__name {
       font-size: 45px !important;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 7em;
+      text-align: center;
+      border-radius: 0 0 25px 25px !important;
     }
     .person__control {
-      // transform: scale(2);
-      right: 30px;
       bottom: 30px;
       z-index: 1;
-      //font-size: 4em;
+      left: 50%;
+      transform: translateX(-50%);
+      @media screen and (max-width: 720px) {
+        // ios safari 操作按钮挡住了
+      }
       .is-circle {
         height: 90px;
         width: 90px;
@@ -221,6 +230,7 @@ export default {
     background: rgb(255, 255, 255);
     background-size: cover;
     .person__name {
+      overflow: hidden;
       padding-left: 1.5em;
       padding-right: 1.5em;
       box-sizing: border-box;
@@ -267,9 +277,6 @@ export default {
       //margin-left: 0;
     }
   }
-}
-
-.person__video {
 }
 
 .video__reverse {
