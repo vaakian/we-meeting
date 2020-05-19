@@ -1,7 +1,7 @@
 <template>
   <div class="room">
     <div class="video-side">
-      <div class="people" id="people">
+      <div class="people" :style="{'padding-top': state.showControls ? '120px': '10px'}" id="people">
         <!-- 自己的共享屏幕 -->
         <div class="person person__show" v-show="state.screenSharing">
           <div class="person__video">
@@ -297,7 +297,7 @@ export default {
   vertical-align: baseline;
   width: 100%;
   padding: 5px;
-  padding-top: 70px;
+  transition: .3s;
 }
 
 video {
