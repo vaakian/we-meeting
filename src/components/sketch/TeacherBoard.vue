@@ -1,6 +1,6 @@
 <template>
   <div @click.self.prevent.stop="exitSketching" class="board-bg">
-  <p class="board-title">你正在使用画板</p>
+    <p class="board-title">你正在使用画板</p>
     <div class="main-board">
       <!-- 左侧工具栏 -->
       <LeftTools @uploadFile="uploadFile" @handleTools="handleTools"></LeftTools>
@@ -45,8 +45,10 @@ export default {
     this.initCanvas();
     // 通知
     this.broadCastNotify();
-    // 有用户加入，通知他正在画画
-    window.webrtc.on('createdPeer', this.broadCastNotify);
+    // 有用户加入，通知他正在画画 (如果是)
+    window.webrtc.on('createdPeer', () => {
+      if (this.state.isSketching) this.broadCastNotify();
+    });
   },
   beforeDestroy() {
     this.exitSketching();
