@@ -1,7 +1,11 @@
 <template>
   <div class="room">
     <div class="video-side">
-      <div class="people" :style="{'padding-top': state.showControls ? '120px': '10px'}" id="people">
+      <div
+        class="people"
+        :style="{'padding-top': state.showControls ? '120px': '10px'}"
+        id="people"
+      >
         <!-- 自己的共享屏幕 -->
         <div class="person person__show" v-show="state.screenSharing">
           <div class="person__video">
@@ -211,10 +215,15 @@ export default {
       spinner: 'el-icon-loading',
       background: 'rgba(0, 0, 0, 0.8)'
     });
-
+    // 最长十秒
     setTimeout(() => {
       window.$globaLoadingInstance.close();
     }, 10000);
+
+    // 刷新前，退出画板
+    window.onbeforeunload = () => {
+      this.exitSketch();
+    };
   },
   watch: {
     chatable(val) {
@@ -226,12 +235,6 @@ export default {
         }, 2000);
         // 关闭全局加载
         window.$globaLoadingInstance.close();
-      }
-    },
-    sketchStream(val) {
-      console.log(val);
-      if (val instanceof MediaStream) {
-        this.$refs.meSketch.srcObject = val;
       }
     }
   },
@@ -297,7 +300,7 @@ export default {
   vertical-align: baseline;
   width: 100%;
   padding: 5px;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 video {
