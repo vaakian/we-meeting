@@ -124,7 +124,7 @@ export default {
       isFreeStatus: false, // 🖌 扩展显示状态
       isColorStatus: false, // 🎨 扩展显示状态
       isShapeStatus: false,
-      currentTool: '',
+      currentTool: 'free',
       shapeList: [
         {
           key: 'solidLine',
@@ -243,7 +243,7 @@ export default {
       this.lineColorIndex = index;
       this.SET_LINE_COLOR(color);
       // 是画笔模式，则更新颜色
-      this.currentTool == 'free' && this.$emit('handleTools', 'free', 1); // 模拟画笔点击
+      this.currentTool != 'free' || this.$emit('handleTools', 'free', 1); // 模拟画笔点击
     },
 
     mouseChange(type, flag) {
