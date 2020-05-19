@@ -4,7 +4,7 @@
 import draw from '../../uitls/shape'; // 封装绘制方法
 import { isEmpty, debounce } from '../../uitls';
 // import UndoCache from './UndoCache';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 import { fabric } from 'fabric';
 export default {
   data() {
@@ -45,7 +45,9 @@ export default {
       'mouseFrom',
       'mouseTo'
     ]),
-
+    ...mapGetters({
+      state: 'getState'
+    }),
     drawInfo() {
       const { lineColor, lineWidth, mouseFrom, mouseTo } = this;
       return {
@@ -93,7 +95,7 @@ export default {
     // 教师端发送 json
     sendEvent() {
       console.log("发送JSON中")
-      window.webrtc.sendToAll('sketch', this.canvasObj.toJSON());
+      window.webrtc.sendToAll('sketch', { nick: this.state.name, sketch: this.canvasObj.toJSON() });
     },
 
     // this.canvasObj.on(...)
@@ -164,10 +166,12 @@ export default {
         // 确保视图已经更新
         this.$nextTick(() => {
           this.initCanvas();
+          this.sendEvent();
         });
       } else {
         this.canvasObj = this.canvasArr[this.canvasIndex];
       }
+      this.sendEvent();
       this.reset();
     },
 

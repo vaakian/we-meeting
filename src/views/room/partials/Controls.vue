@@ -1,5 +1,5 @@
 <template>
-  <div class="controls" :style="{'top': state.showControls ? '10px':'-60px'}">
+  <div class="controls" :style="{'top': state.showControls ? '10px':'-115px'}">
     <el-menu
       default-active="1-4-1"
       active-text-color="#409eff"
@@ -18,14 +18,14 @@
                 v-if="!state.muted"
                 @click="muteMe"
                 round
-              >关闭麦克风</el-button>
+              >关麦克风</el-button>
               <el-button
                 icon="el-icon-turn-off-microphone"
                 type="primary"
                 v-else
                 @click="unmuteMe"
                 round
-              >打开麦克风</el-button>
+              >开麦克风</el-button>
               <el-divider direction="vertical"></el-divider>
               <el-button
                 icon="el-icon-camera"
@@ -33,9 +33,10 @@
                 v-if="!state.paused"
                 @click="pauseMe"
                 round
-              >关闭摄像头</el-button>
-              <el-button icon="el-icon-camera" type="primary" v-else @click="unpauseMe" round>打开摄像头</el-button>
-              <el-divider direction="vertical"></el-divider>
+              >关摄像头</el-button>
+              <el-button icon="el-icon-camera" type="primary" v-else @click="unpauseMe" round>开摄像头</el-button>
+              <br />
+              <!-- 分行 -->
               <el-button
                 icon="el-icon-monitor"
                 type="danger"
@@ -50,6 +51,15 @@
                 @click="shareScreen"
                 round
               >屏幕共享</el-button>
+              <!-- 画板 -->
+              <el-divider direction="vertical"></el-divider>
+              <el-button
+                icon="el-icon-edit"
+                type="primary"
+                @click="startSketch"
+                :disabled="state.isSketching"
+                round
+              >实时画板</el-button>
             </div>
           </el-menu-item>
         </el-col>
@@ -93,28 +103,20 @@
                 >打开摄像头</el-button>
               </el-dropdown-item>
               <!-- <el-divider></el-divider>
-              <el-dropdown-item>
-                <el-button
-                  icon="el-icon-monitor"
-                  type="danger"
-                  v-if="state.screenSharing"
-                  @click="stopScreenShare"
-                  round
-                >关屏幕共享</el-button>
-                <el-button
-                  icon="el-icon-monitor"
-                  type="primary"
-                  v-else
-                  @click="shareScreen"
-                  round
-                >开屏幕共享</el-button>
-              </el-dropdown-item>-->
+              <el-button
+                icon="el-icon-edit"
+                type="primary"
+                @click="startSketch"
+                :disabled="state.isSketching"
+                round
+              >实时画板</el-button>-->
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
-        <!-- 操作 -->
-        <el-col :xs="6" :sm="3" :md="3" :lg="3" :xl="3">
-          <el-menu-item index="2">
+
+        <!-- 聊天 -->
+        <el-col :xs="6" :sm="5" :md="5" :lg="5" :xl="5" style="float: right">
+          <el-menu-item index="3">
             <el-popover
               slot="title"
               popper-class="controls__tool"
@@ -132,10 +134,7 @@
               </div>
             </el-popover>
           </el-menu-item>
-        </el-col>
-        <!-- 聊天 -->
-        <el-col :xs="6" :sm="3" :md="3" :lg="3" :xl="3">
-          <el-menu-item style="float: right" index="6">
+          <el-menu-item index="4">
             <el-popover popper-class="controls__chat" placement="bottom" title="聊天" trigger="click">
               <Chat />
               <div slot="reference">
@@ -173,7 +172,7 @@
 import Chat from './Chat';
 import Share from '../../../components/Share';
 
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
   components: { Chat, Share },
@@ -191,6 +190,7 @@ export default {
       setShowChat: 'setShowChat',
       setShowControls: 'setShowControls'
     }),
+    ...mapActions(['startSketch']),
     muteMe() {
       this.setMuted(true);
     },

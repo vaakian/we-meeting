@@ -1,5 +1,6 @@
 <template>
-  <div class="board-bg">
+  <div @click.self.prevent.stop="exitSketching" class="board-bg">
+  <p class="board-title">你正在使用画板</p>
     <div class="main-board">
       <!-- 左侧工具栏 -->
       <LeftTools @uploadFile="uploadFile" @handleTools="handleTools"></LeftTools>
@@ -18,6 +19,7 @@ import boardMixin from './mixins';
 import TopTools from './src/TopTools';
 import PicBoard from './src/PicBoard';
 import LeftTools from './src/LeftTools';
+import { mapMutations, mapGetters } from 'vuex';
 
 export default {
   name: 'TeacherBoard',
@@ -41,20 +43,40 @@ export default {
   mounted() {
     this.initKeyboardEvent();
     this.initCanvas();
+    // 通知
+    this.broadCastNotify();
+    // 有用户加入，通知他正在画画
+    window.webrtc.on('createdPeer', this.broadCastNotify);
   },
-
+  beforeDestroy() {
+    this.exitSketching();
+    this.setShowControls(true);
+  },
   computed: {
+    ...mapGetters({
+      state: 'getState'
+    }),
     isFreeDrawing() {
       return this.type === 'free';
     }
   },
 
   methods: {
+    broadCastNotify() {
+      this.sendEvent();
+      // 第二次是画画
+      setTimeout(() => this.sendEvent(), 250);
+    },
+    ...mapMutations(['setIsSketching', 'setShowControls']),
     initCanvas() {
       this.addCanvas();
       this.initEvent();
     },
-
+    exitSketching() {
+      // 退出画布
+      window.webrtc.sendToAll('exitSketch', false);
+      this.setIsSketching(false);
+    },
     initEvent() {
       this.canvasObj.on({
         'mouse:down': this.mouseDown,

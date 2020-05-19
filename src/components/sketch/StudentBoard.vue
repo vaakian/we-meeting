@@ -1,9 +1,10 @@
 <template>
   <!-- 工具栏 -->
   <div class="board-bg">
+      <p class="board-title">{{nick}}正在使用画板</p>
     <div class="main-board">
-    <PicBoard :canvasArr="canvasArr" :canvasIndex="canvasIndex" @changePage="changePage"></PicBoard>
-  </div>
+      <PicBoard :canvasArr="canvasArr" :canvasIndex="canvasIndex" @changePage="changePage"></PicBoard>
+    </div>
   </div>
 </template>
 <script>
@@ -21,7 +22,9 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      nick: ''
+    };
   },
 
   mounted() {
@@ -30,7 +33,6 @@ export default {
   },
 
   methods: {
-    
     init() {
       this.canvasObj = new fabric.Canvas(`c${this.canvasIndex}`, {
         isDrawingMode: false,
@@ -46,7 +48,8 @@ export default {
       // 接受教师端播放的数据
       window.webrtc.connection.on('message', ({ type, payload }) => {
         if (type == 'sketch') {
-          this.play(payload);
+          this.nick = payload.nick;
+          this.play(payload.sketch);
         }
       });
     },
@@ -69,6 +72,14 @@ export default {
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.6);
+}
+.board-title {
+  font-size: 25px;
+  text-align: center;
+  position: fixed;
+  color: white;
+  width: 100%;
+  top: 5px;
 }
 .main-board {
   width: 90%;

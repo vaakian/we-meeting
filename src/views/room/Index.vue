@@ -1,7 +1,6 @@
 <template>
   <div class="room">
     <div class="video-side">
-      <el-button @click="startSketch">开始画画</el-button>
       <div class="people" id="people">
         <!-- 自己的共享屏幕 -->
         <div class="person person__show" v-show="state.screenSharing">
@@ -12,16 +11,7 @@
             </div>
           </div>
         </div>
-        <!-- 自己的画布 -->
-        <div v-show="chatable" class="person">
-          <div class="person__video person__show">
-            <video ref="meSketch" src></video>
-            <div class="person__name">
-              <span style="color: red">{{sketchStream}}</span>
-              {{state.name}}
-            </div>
-          </div>
-        </div>
+
         <!-- 自己的摄像头 -->
         <div v-show="chatable" class="person">
           <div class="person__video person__show">
@@ -44,12 +34,6 @@
           :client="client"
           :key="client.peer.id+client.peer.type"
         ></Video>
-        <!-- 画板用户 -->
-        <Video
-          v-for="client in sketchClients"
-          :client="client"
-          :key="client.peer.id+client.peer.type"
-        ></Video>
       </div>
     </div>
     <Controls v-if="chatable" />
@@ -65,7 +49,7 @@ import Video from './partials/Video';
 import TeacherBoard from '../../components/sketch/TeacherBoard';
 import StudentBoard from '../../components/sketch/StudentBoard';
 import Controls from './partials/Controls';
-import { mapGetters, mapMutations, mapState } from 'vuex';
+import { mapGetters, mapMutations, mapState, mapActions } from 'vuex';
 import SimpleWebRTC from 'xwj-simplewebrtc';
 import { enumerateDevices } from '../../uitls';
 export default {
@@ -99,7 +83,8 @@ export default {
       setConnIsReady: 'setConnIsReady',
       setScreenSharing: 'setScreenSharing',
       setShowTeacherBoard: 'setShowTeacherBoard',
-      setIsSketching: 'setIsSketching'
+      setIsSketching: 'setIsSketching',
+      setShowControls: 'setShowControls'
     }),
     initMedia(media) {
       // 远程流
@@ -174,21 +159,11 @@ export default {
       });
       window.webrtc.connection.on('message', ({ type }) => {
         // 显示学生观看画板
-        // 当前房间没有人画画
-        if (type === 'sketch' && !this.state.isSketching) {
-          this.setShowTeacherBoard(false);
-          this.setIsSketching(true);
-        }
+        if (type === 'sketch') this.startWatchSketch();
+        else if (type === 'exitSketch') this.exitSketch();
       });
     },
-    // 画板操作
-    startSketch() {
-      if (!this.state.isSketching) {
-        console.log('开始画画');
-        this.setShowTeacherBoard(true);
-        this.setIsSketching(true);
-      }
-    }
+    ...mapActions(['startWatchSketch', 'exitSketch', 'startSketch'])
   },
   mounted() {
     enumerateDevices().then(constraints => {
