@@ -116,7 +116,6 @@
               placement="bottom"
               title="分享会议"
               trigger="click"
-              @click.native="setShowChat(!state.showChat)"
             >
               <Share />
               <div slot="reference">
@@ -137,7 +136,6 @@
               placement="bottom"
               title="分享会议"
               trigger="click"
-              @click.native="setShowChat(!state.showChat)"
             >
               <Share />
               <div slot="reference">
@@ -150,7 +148,6 @@
           </el-menu-item>
           <el-menu-item index="4">
             <el-popover popper-class="controls__chat" placement="bottom" title="聊天" trigger="click">
-              <Chat />
               <div slot="reference">
                 <i class="el-icon-chat-dot-round"></i>
                 <el-badge
@@ -162,6 +159,8 @@
                   <span>聊天</span>
                 </el-badge>
               </div>
+
+              <Chat />
             </el-popover>
           </el-menu-item>
         </el-col>
@@ -222,13 +221,12 @@ export default {
       window.webrtc.shareScreen({ video: true, audio: true }, event => {
         if (event) {
           if (event.code === 0) {
-            this.$message.error({ message: '您取消了屏幕共享', offset: 70 });
+            this.$notify.error({ message: '您取消了屏幕共享' });
             window.webrtc.stopScreenShare();
             this.setScreenSharing(false);
           } else if (event.stack) {
-            this.$message.error({
-              message: `${event.name} -> ${event.message}`,
-              offset: 70
+            this.$notify.error({
+              message: `${event.name} -> ${event.message}`
             });
             this.setScreenSharing(false);
           }

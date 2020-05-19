@@ -85,7 +85,7 @@ export default {
     sendMessage() {
       const _vm = this;
       if (_vm.messageContent === '') {
-        this.$message.warning({ message: '不允许发送空消息', offset: 70 });
+        this.$notify.warning({ message: '不允许发送空消息' });
         return;
       }
       if (_vm.connIsReady) {
@@ -100,17 +100,16 @@ export default {
         message.self = true;
         _vm.addMessage(message);
       } else {
-        this.$message.error({ message: '未连接到服务器！', offset: 70 });
+        this.$notify.error({ message: '未连接到服务器！' });
       }
       // 清空
       _vm.messageContent = '';
     },
     receiveMessage(message) {
-      this.$message({
+      this.$notify({
         dangerouslyUseHTMLString: true,
         iconClass: 'el-icon-chat-dot-round',
-        message: `<span style="color: #4095f0"> ${message.nick}</span> 发来一条消息`,
-        offset: 70
+        message: `<span style="color: #4095f0"> ${message.nick}</span> 发来一条消息`
       });
       this.addMessage(message);
     },
@@ -128,17 +127,18 @@ export default {
   mounted() {
     if (this.nohandler) return;
     const _vm = this;
+    _vm.contetnSrollBottom();
+    console.log('挂载消息');
     const handleMessage = ({ type, payload }) => {
       if (['candidate', 'answer', 'endOfCandidates'].indexOf(type) === -1)
         console.log('收到消息', { type, payload });
-      _vm.contetnSrollBottom();
       if (type === 'chat') this.receiveMessage(payload);
     };
     window.webrtc.connection.on('message', handleMessage);
   },
   watch: {
     'state.showChat'() {
-      this.contetnSrollBottom();
+      setTimeout(() => this.contetnSrollBottom(), 8);
     }
   }
 };

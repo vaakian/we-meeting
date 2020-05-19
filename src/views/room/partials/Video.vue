@@ -94,7 +94,7 @@ export default {
 
     // 通知加入，加入前2秒不通知，是已存在的用户
     window.$allowJoinMessage &&
-      this.$message({
+      this.$notify({
         dangerouslyUseHTMLString: true,
         message: `<strong style="color: #409EFF"> ${peer.nick}</strong> ${
           peer.type === 'video' ? '加入了会议' : '开启了屏幕共享'
@@ -104,7 +104,7 @@ export default {
   },
   beforeDestroy() {
     const { peer } = this.client;
-    this.$message({
+    this.$notify({
       dangerouslyUseHTMLString: true,
       message: ` <strong style="color: #409EFF"> ${peer.nick}</strong> ${
         peer.type === 'video' ? '离开了会议' : '停止了屏幕共享'

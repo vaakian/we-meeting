@@ -80,7 +80,6 @@ import { mapMutations } from 'vuex';
 import uuid from 'uuid/v4';
 import Icon from '../components/Icon';
 import VideoSwitch from '../components/Video-switch';
-import { Message } from 'element-ui';
 import { randomName } from '../uitls';
 // import Adapter from 'webrtc-adapter';
 // 两个tab：
@@ -104,11 +103,11 @@ export default {
     }),
     join() {
       if (!this.name) {
-        Message.error('请输入您的昵称');
+        this.$notify.error('请输入您的昵称');
         return;
       }
       if (!this.room) {
-        Message.error('请输入会议号，或者创建新的会议');
+        this.$notify.error('请输入会议号，或者创建新的会议');
         return;
       }
       this.setMeName(this.name);
@@ -142,7 +141,7 @@ export default {
         console.log(navigator.mediaDevices);
         navigator.mediaDevices.getSupportedConstraints();
       } catch (err) {
-        this.$message.warning({
+        this.$notify.warning({
           message: err.message,
           duration: 100000
         });

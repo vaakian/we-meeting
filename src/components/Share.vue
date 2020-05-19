@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     copySuccess() {
-      this.$message.success('复制成功，分享给朋友加入会议吧！');
+      this.$notify.success('复制成功，分享给朋友加入会议吧！');
       this.copyButtonStyle.icon = 'el-icon-check';
       this.copyButtonStyle.type = 'success';
       setTimeout(() => {
@@ -44,7 +44,7 @@ export default {
       }, 3000);
     },
     copyError() {
-      this.$message.error('复制失败，请手动复制！');
+      this.$notify.error('复制失败，请手动复制！');
     }
   },
   mounted() {
