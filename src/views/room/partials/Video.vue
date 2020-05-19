@@ -6,7 +6,7 @@
       @mouseleave.stop="showInfoBar = false"
       @click.stop="showInfoBar=!showInfoBar"
     >
-      <div ref="person"></div>
+      <div class="video_el" ref="person"></div>
       <div class="person__control">
         <!-- <el-tooltip
           class="item"
@@ -234,8 +234,10 @@ export default {
     box-shadow: 0 10px 25px rgba(49, 49, 49, 0.2);
 
     position: relative;
-    background: rgb(255, 255, 255);
-    background-size: cover;
+    height: 100%;
+    width: 100%;
+    //background: url('/static/nocam.png');
+    //background-size: cover;
     .person__name {
       overflow: hidden;
       padding-left: 1.5em;
@@ -252,8 +254,16 @@ export default {
       transition: 0.3s;
       line-height: 3em;
     }
-    video {
-      display: block;
+    .video_el {
+      height: 100%;
+      width: 100%;
+      video {
+        display: block;
+        background: #000;
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+      }
     }
   }
 

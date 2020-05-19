@@ -138,7 +138,7 @@ export default {
   },
   watch: {
     'state.showChat'() {
-      setTimeout(() => this.contetnSrollBottom(), 8);
+      setTimeout(() => this.contetnSrollBottom(), 25);
     }
   }
 };

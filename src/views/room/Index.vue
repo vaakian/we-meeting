@@ -5,7 +5,9 @@
         <!-- 自己的共享屏幕 -->
         <div class="person person__show" v-show="state.screenSharing">
           <div class="person__video">
-            <video autoplay ref="meScreen"></video>
+            <div class="video_el">
+              <video autoplay ref="meScreen"></video>
+            </div>
             <div class="person__name">
               <span style="color: red">(自己)[屏幕共享]</span>
             </div>
@@ -15,7 +17,9 @@
         <!-- 自己的摄像头 -->
         <div v-show="chatable" class="person">
           <div class="person__video person__show">
-            <video ref="meVideo" src></video>
+            <div class="video_el">
+              <video ref="meVideo" src></video>
+            </div>
             <div class="person__name">
               <span style="color: red">(自己)</span>
               {{state.name}}
