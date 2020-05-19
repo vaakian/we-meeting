@@ -1,5 +1,5 @@
 <template>
-  <div class="controls" :style="{'top': state.showControls ? '10px':'-115px'}">
+  <div :class="{'controls': true, 'controls-hide': !state.showControls}">
     <el-menu
       default-active="1-4-1"
       active-text-color="#409eff"
@@ -76,14 +76,14 @@
                   v-if="!state.muted"
                   @click="muteMe"
                   round
-                >关闭麦克风</el-button>
+                >关麦克风</el-button>
                 <el-button
                   icon="el-icon-turn-off-microphone"
                   type="primary"
                   v-else
                   @click="unmuteMe"
                   round
-                >打开麦克风</el-button>
+                >开麦克风</el-button>
               </el-dropdown-item>
               <el-divider></el-divider>
               <el-dropdown-item>
@@ -93,14 +93,8 @@
                   v-if="!state.paused"
                   @click="pauseMe"
                   round
-                >关闭摄像头</el-button>
-                <el-button
-                  icon="el-icon-camera"
-                  type="primary"
-                  v-else
-                  @click="unpauseMe"
-                  round
-                >打开摄像头</el-button>
+                >关摄像头</el-button>
+                <el-button icon="el-icon-camera" type="primary" v-else @click="unpauseMe" round>开摄像头</el-button>
               </el-dropdown-item>
               <!-- <el-divider></el-divider>
               <el-button

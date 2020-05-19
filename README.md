@@ -3,6 +3,8 @@
 移动端 操作按钮分（操作、聊天）
 
 
++ [ ] 移动端 收起太高
+
 + [x] 画板 [fabric](https://github.com/fabricjs/fabric.js) | 手机routate一下
 
 + [ ] js判断移动端，不显示屏幕共享
