@@ -119,7 +119,7 @@ export default {
       // 请求摄像头
       window.webrtc.startLocalVideo();
       // 请求准备完成，进入房间, readyToCall
-      window.webrtc.on('connectionReady', () => {
+      window.webrtc.on('readyToCall', () => {
         console.log('加入房间', this.room);
         window.webrtc.joinRoom(this.room);
         this.setConnIsReady(true);

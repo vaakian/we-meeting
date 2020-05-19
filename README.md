@@ -3,9 +3,7 @@
 移动端 操作按钮分（操作、聊天）
 
 
-+ [ ] 画板 [fabric](https://github.com/fabricjs/fabric.js)
-
-可选分享与不分享，生成svg发送到消息窗口
++ [x] 画板 [fabric](https://github.com/fabricjs/fabric.js) | 手机routate一下
 
 + [ ] 主题功能
 
