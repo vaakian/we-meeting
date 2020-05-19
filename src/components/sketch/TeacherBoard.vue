@@ -45,9 +45,9 @@ export default {
     this.initCanvas();
     // 通知
     this.broadCastNotify();
-    // 有用户加入，通知他正在画画 (如果是)
+    // 有用户加入，通知他正在画画 (如果是自己在画)
     window.webrtc.on('createdPeer', () => {
-      if (this.state.isSketching) this.broadCastNotify();
+      if (this.state.isSketching && this.state.showTeacherBoard) this.broadCastNotify();
     });
   },
   beforeDestroy() {

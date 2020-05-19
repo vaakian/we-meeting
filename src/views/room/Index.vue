@@ -3,7 +3,7 @@
     <div class="video-side">
       <div
         class="people"
-        :style="{'padding-top': state.showControls ? '120px': '10px'}"
+        :style="{'padding-top': state.showControls ? '128px': '10px'}"
         id="people"
       >
         <!-- 自己的共享屏幕 -->
