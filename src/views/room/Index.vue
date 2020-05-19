@@ -1,6 +1,7 @@
 <template>
   <div class="room">
     <div class="video-side">
+      <el-button @click="startSketch">开始画画</el-button>
       <div class="people" id="people">
         <!-- 自己的共享屏幕 -->
         <div class="person person__show" v-show="state.screenSharing">
@@ -8,6 +9,16 @@
             <video autoplay ref="meScreen"></video>
             <div class="person__name">
               <span style="color: red">(自己)[屏幕共享]</span>
+            </div>
+          </div>
+        </div>
+        <!-- 自己的画布 -->
+        <div v-show="chatable" class="person">
+          <div class="person__video person__show">
+            <video ref="meSketch" src></video>
+            <div class="person__name">
+              <span style="color: red">{{sketchStream}}</span>
+              {{state.name}}
             </div>
           </div>
         </div>
@@ -33,22 +44,36 @@
           :client="client"
           :key="client.peer.id+client.peer.type"
         ></Video>
+        <!-- 画板用户 -->
+        <Video
+          v-for="client in sketchClients"
+          :client="client"
+          :key="client.peer.id+client.peer.type"
+        ></Video>
       </div>
-      <Controls v-if="chatable" />
     </div>
+    <Controls v-if="chatable" />
+    <template v-if="state.isSketching">
+      <TeacherBoard v-if="state.showTeacherBoard" />
+      <StudentBoard v-else />
+    </template>
   </div>
 </template>
 
 <script>
 import Video from './partials/Video';
+import TeacherBoard from '../../components/sketch/TeacherBoard';
+import StudentBoard from '../../components/sketch/StudentBoard';
 import Controls from './partials/Controls';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapState } from 'vuex';
 import SimpleWebRTC from 'xwj-simplewebrtc';
 import { enumerateDevices } from '../../uitls';
 export default {
   components: {
     Video,
-    Controls
+    Controls,
+    TeacherBoard,
+    StudentBoard
   },
   props: {
     room: String
@@ -62,15 +87,19 @@ export default {
     ...mapGetters({
       state: 'getState',
       videoClients: 'getVideoClients',
-      screenClients: 'getScreenClients'
-    })
+      screenClients: 'getScreenClients',
+      sketchClients: 'getSketchClients'
+    }),
+    ...mapState({ sketchStream: 'draw/stream' })
   },
   methods: {
     ...mapMutations({
       addPeer: 'addPeer',
       removePeer: 'removePeer',
       setConnIsReady: 'setConnIsReady',
-      setScreenSharing: 'setScreenSharing'
+      setScreenSharing: 'setScreenSharing',
+      setShowTeacherBoard: 'setShowTeacherBoard',
+      setIsSketching: 'setIsSketching'
     }),
     initMedia(media) {
       // 远程流
@@ -100,16 +129,19 @@ export default {
       });
       // 请求摄像头
       window.webrtc.startLocalVideo();
-      // 请求准备完成，进入房间
-      window.webrtc.on('readyToCall', () => {
+      // 请求准备完成，进入房间, readyToCall
+      window.webrtc.on('connectionReady', () => {
         console.log('加入房间', this.room);
         window.webrtc.joinRoom(this.room);
         this.setConnIsReady(true);
         this.chatable = true;
       });
+      window.webrtc.on('sketchStream', stream => {
+        console.log('接收到了画布', stream);
+      });
       // 用户加入离开事件
       window.webrtc.on('videoAdded', (video, peer) => {
-        console.log('加入事件', peer.stream.id);
+        console.log('加入事件', { peer });
         this.addPeer({ video, peer });
       });
       window.webrtc.on('videoRemoved', (video, peer) => {
@@ -127,10 +159,11 @@ export default {
         window.webrtc.stopScreenShare();
         this.setScreenSharing(false);
       });
+
       // 本地流
       window.webrtc.on('localStream', stream => {
         console.log('添加本地流');
-        let attachMediaStream = require('attachmediastream');
+        let attachMediaStream = require('xwj-attachmediastream');
         // 关闭本地流声音 避免回音
         stream.getAudioTracks()[0].enabled = false;
         attachMediaStream(stream, this.$refs.meVideo, {
@@ -139,6 +172,22 @@ export default {
           muted: true
         });
       });
+      window.webrtc.connection.on('message', ({ type }) => {
+        // 显示学生观看画板
+        // 当前房间没有人画画
+        if (type === 'sketch' && !this.state.isSketching) {
+          this.setShowTeacherBoard(false);
+          this.setIsSketching(true);
+        }
+      });
+    },
+    // 画板操作
+    startSketch() {
+      if (!this.state.isSketching) {
+        console.log('开始画画');
+        this.setShowTeacherBoard(true);
+        this.setIsSketching(true);
+      }
     }
   },
   mounted() {
@@ -202,6 +251,12 @@ export default {
         }, 2000);
         // 关闭全局加载
         window.$globaLoadingInstance.close();
+      }
+    },
+    sketchStream(val) {
+      console.log(val);
+      if (val instanceof MediaStream) {
+        this.$refs.meSketch.srcObject = val;
       }
     }
   },

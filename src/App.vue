@@ -1,10 +1,13 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <!-- <TeacherBoard /> -->
+    <router-view />
   </div>
 </template>
 
 <script>
+// import Sketch from './components/Sketch';
+
 export default {
   name: 'app',
   mounted() {

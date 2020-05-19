@@ -9,7 +9,7 @@
           <div class="chat__content__left">
             <p class="chat__content__head">
               <span class="chat__content__nick">{{message.nick}}</span>
-              <span class="chat__content__time">{{currentTime()}}</span>
+              <span class="chat__content__time">{{message.time}}</span>
             </p>
             <div class="chat__content__text">
               <p v-html="message.content"></p>
@@ -27,7 +27,7 @@
           <div class="chat__content__right">
             <p class="chat__content__head">
               <span class="chat__content__nick">{{message.nick}}</span>
-              <span class="chat__content__time">{{currentTime()}}</span>
+              <span class="chat__content__time">{{message.time}}</span>
             </p>
             <div class="chat__content__text">
               <p v-html="message.content"></p>
@@ -79,7 +79,8 @@ export default {
   },
   methods: {
     ...mapMutations({
-      addMessage: 'addMessage'
+      addMessage: 'addMessage',
+      setShowTeacherBoard: 'setShowTeacherBoard'
     }),
     sendMessage() {
       const _vm = this;
@@ -116,12 +117,6 @@ export default {
     contetnSrollBottom() {
       let div = this.$refs.chatContent;
       div.scrollTop = div.scrollHeight;
-    },
-    currentTime() {
-      const date = new Date();
-      const hour = date.getHours();
-      const min = date.getMinutes();
-      return `${hour < 10 ? '0' + hour : hour}:${min < 10 ? '0' + min : min}`;
     },
     avatarColor(nick) {
       return '#' + MD5(nick).substr(8, 6);

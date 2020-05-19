@@ -17,6 +17,11 @@ export const getScreenClients = (state) => {
   return state.clients.filter(client => client.peer.type === 'screen')
 }
 
+export const getSketchClients = (state) => {
+  return state.clients.filter(client => client.peer.type === 'sketch')
+}
+
+
 
 export const getMessages = (state) => {
   return state.messages

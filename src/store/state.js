@@ -7,8 +7,10 @@ export default {
     paused: false,
     screenSharing: false,
     showChat: false,
-    showControls: true
+    showControls: true,
+    showTeacherBoard: false,
+    isSketching: false
   },
   clients: [],
-  messages: [],
+  messages: []
 }

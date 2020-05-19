@@ -165,12 +165,14 @@
         circle
       ></el-button>
     </div>
+    <!-- 画板 -->
   </div>
 </template>
 
 <script>
 import Chat from './Chat';
 import Share from '../../../components/Share';
+
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {

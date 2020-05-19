@@ -1,3 +1,4 @@
+import { getCurrentTime } from '../uitls'
 export const setConnIsReady = (state, val) => {
   state.connIsReady = val;
 }
@@ -30,8 +31,16 @@ export const removePeer = (state, peer) => {
 }
 
 export const addMessage = (state, message) => {
-  state.messages.push(message)
+  state.messages.push({ time: getCurrentTime(), ...message });
 }
 export const setScreenSharing = (state, value) => {
   state.state.screenSharing = value
+}
+
+export const setShowTeacherBoard = (state, val) => {
+  state.state.showTeacherBoard = val;
+}
+
+export const setIsSketching = (state, val) => {
+  state.state.isSketching = val;
 }

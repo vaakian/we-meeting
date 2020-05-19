@@ -15,7 +15,6 @@
                 <span class="home__content__label">房间号</span>
                 <el-input
                   type="text"
-                  name="room"
                   id="room"
                   v-model.trim="room"
                   placeholder="会议房间号"
