@@ -5,6 +5,8 @@
 
 + [x] 画板 [fabric](https://github.com/fabricjs/fabric.js) | 手机routate一下
 
++ [ ] js判断移动端，不显示屏幕共享
+
 + [ ] 主题功能
 
 + [ ] 屏幕分享还未准备好时，显示屏幕分享加载中

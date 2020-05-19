@@ -64,8 +64,8 @@
           </el-menu-item>
         </el-col>
 
-        <!-- 移动端 -->
-        <el-col class="controls__mobile" :xs="12" :sm="0" :md="0" :lg="0" :xl="0">
+        <!-- 移动端操作按钮 -->
+        <el-col class="controls__mobile" :xs="11" :sm="0" :md="0" :lg="0" :xl="0">
           <el-dropdown trigger="click" style="margin: 6px 0 0 10px;">
             <el-button type="primary" icon="el-icon-phone-outline" round>视频操作</el-button>
             <el-dropdown-menu slot="dropdown">
@@ -113,10 +113,30 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
-
-        <!-- 聊天 -->
-        <el-col :xs="6" :sm="5" :md="5" :lg="5" :xl="5" style="float: right">
-          <el-menu-item index="3">
+        <!-- 移动端分享 -->
+        <el-col :xs="4" :sm="0" :md="0" :lg="0" :xl="0">
+          <el-menu-item index="5">
+            <el-popover
+              slot="title"
+              popper-class="controls__tool"
+              placement="bottom"
+              title="分享会议"
+              trigger="click"
+              @click.native="setShowChat(!state.showChat)"
+            >
+              <Share />
+              <div slot="reference">
+                <i class="el-icon-share"></i>
+                <el-badge slot="title" is-dot>
+                  <span>分享</span>
+                </el-badge>
+              </div>
+            </el-popover>
+          </el-menu-item>
+        </el-col>
+        <!-- 聊天、分享 -->
+        <el-col :xs="7" :sm="6" :md="6" :lg="6" :xl="6" style="float: right">
+          <el-menu-item index="3" class="controls__pc__share">
             <el-popover
               slot="title"
               popper-class="controls__tool"

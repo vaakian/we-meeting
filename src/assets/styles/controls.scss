@@ -7,9 +7,16 @@
   left: 50%;
   transform: translateX(-50%);
   width: 98%;
-  max-width: 500px;
+  max-width: 430px;
   border-radius: 13px;
   z-index: 20;
+  &__pc {
+    &__share {
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+  }
   .el-button.is-round {
     border-radius: 13px !important;
   }
@@ -38,7 +45,7 @@
   }
   &__chat {
     width: 600px;
-    @media screen and(max-width: 620px) {
+    @media screen and(max-width: 768px) {
       width: 98vw;
     }
   }
