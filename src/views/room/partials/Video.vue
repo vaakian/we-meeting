@@ -148,6 +148,7 @@ export default {
   z-index: 0;
   border-radius: 6px;
   overflow: hidden;
+  box-shadow: 0px 2px 8px #7f9fae;
   &__show {
     .person__name {
       height: 3em !important;
@@ -262,7 +263,7 @@ export default {
         background: #000;
         width: 100%;
         height: 100%;
-        object-fit: fill;
+        //object-fit: fill;
       }
     }
   }

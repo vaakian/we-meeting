@@ -1,0 +1,100 @@
+$contentWidth: calc(100% - 140px);
+.chat {
+  height: 55vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    line-height: 60px;
+    text-align: center;
+    font-size: 25px;
+    color: white;
+  }
+  &__content {
+    li {
+      overflow: hidden;
+      zoom: 1;
+    }
+    overflow-y: scroll;
+    padding-bottom: 20px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &__self {
+      float: right;
+      text-align: right;
+      width: 100%;
+      .chat__content__left {
+        min-width: none;
+        max-width: $contentWidth;
+      }
+      .chat__content__right {
+        max-width: none;
+      }
+      .chat__content__text {
+        background: #4095f0;
+        color: white;
+        text-align: left;
+      }
+      .chat__content__head {
+        text-align: right;
+      }
+    }
+    &__left,
+    &__right {
+      display: inline-block;
+      max-width: $contentWidth;
+      text-align: left;
+    }
+    &__left {
+      word-break: break-all;
+    }
+    &__right {
+      vertical-align: top;
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+    &__time {
+      font-size: 13px;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+    &__nick {
+      color: #4095f0;
+      font-weight: bold;
+    }
+    &__text {
+      background: #f3f3f3;
+      padding: 10px 10px;
+      border-radius: 5px;
+      img {
+        max-width: 100% !important;
+      }
+    }
+    @media screen and (max-width: 450px) {
+    }
+
+    &::-webkit-scrollbar {
+      display: auto;
+    }
+  }
+  &__operation {
+    padding: 15px 8px;
+    padding-right: 0;
+    background: #f3f3f3;
+    width: 100%;
+    border-radius: 5px;
+    .el-textarea {
+      width: calc(100% - 65px);
+      display: inline-block;
+    }
+    button {
+      margin: 10px;
+      display: inline-block;
+    }
+  }
+}

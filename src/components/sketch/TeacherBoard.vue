@@ -1,5 +1,5 @@
 <template>
-  <div @click.self.prevent.stop="exitSketching" class="board-bg">
+  <div @mousedown.self.prevent.stop="exitSketching" class="board-bg">
     <p class="board-title">你正在使用画板</p>
     <div class="main-board">
       <!-- 左侧工具栏 -->
@@ -47,7 +47,8 @@ export default {
     this.broadCastNotify();
     // 有用户加入，通知他正在画画 (如果是自己在画)
     window.webrtc.on('createdPeer', () => {
-      if (this.state.isSketching && this.state.showTeacherBoard) this.broadCastNotify();
+      if (this.state.isSketching && this.state.showTeacherBoard)
+        this.broadCastNotify();
     });
   },
   beforeDestroy() {

@@ -40,18 +40,24 @@
         ></Video>
       </div>
     </div>
+    <!-- 控制栏 -->
     <Controls v-if="chatable" />
+    <!-- 画板 -->
     <template v-if="state.isSketching">
       <TeacherBoard v-if="state.showTeacherBoard" />
       <StudentBoard v-else />
     </template>
+    <!-- 用户列表 -->
+    <UserList />
   </div>
 </template>
 
 <script>
 import Video from './partials/Video';
+import UserList from './partials/User-list';
 import TeacherBoard from '../../components/sketch/TeacherBoard';
 import StudentBoard from '../../components/sketch/StudentBoard';
+
 import Controls from './partials/Controls';
 import { mapGetters, mapMutations, mapState, mapActions } from 'vuex';
 import SimpleWebRTC from 'xwj-simplewebrtc';
@@ -61,7 +67,8 @@ export default {
     Video,
     Controls,
     TeacherBoard,
-    StudentBoard
+    StudentBoard,
+    UserList
   },
   props: {
     room: String
@@ -137,9 +144,12 @@ export default {
         // 自己关闭共享、视频不调用remove
         peer && this.removePeer(peer);
       });
-      // 本地视频获取到之后，发送个其他人
+      // 本地视频获取到，显示到div
       window.webrtc.on('localScreen', stream => {
         console.log('本地视频added', stream);
+        // 避免回声
+        if (stream.getAudioTracks()[0])
+          stream.getAudioTracks()[0].enabled = false;
         this.$refs.meScreen.srcObject = stream;
       });
       window.webrtc.on('localScreenStopped', (...args) => {

@@ -1,3 +1,4 @@
+import MD5 from 'js-md5';
 export const enumerateDevices = () => {
   return new Promise((resolve, reject) => {
     navigator.mediaDevices.enumerateDevices()
@@ -58,11 +59,16 @@ const debounce = (fn, delay) => {
   }
 };
 
+const hashColor = str => {
+  return '#' + MD5(str).substr(8, 6);
+}
+
 export {
   assert,
   isString,
   isObject,
   isArray,
   isEmpty,
-  debounce
+  debounce,
+  hashColor
 };

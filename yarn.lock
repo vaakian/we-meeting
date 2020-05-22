@@ -796,6 +796,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@ele-cloud/element-theme-dark@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ele-cloud/element-theme-dark/-/element-theme-dark-1.0.0.tgz#fc56646a76a071fe73c74194106d3e16cde1b399"
+  integrity sha512-nQ2PG3BIzrmYnjZrwcKUeXiVoamToGWph57MhX/d4jxBjK1Wc8qptCEVL4zCDftRw+kzUUicwTY+24s8E91z4g==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.npm.taobao.org/@hapi/address/download/@hapi/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

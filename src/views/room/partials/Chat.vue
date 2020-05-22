@@ -1,8 +1,7 @@
 <template>
   <div class="chat">
-    <!-- 聊天内容 -->
     <ul class="chat__content" ref="chatContent">
-      <li class="chat__content__empty" v-if="messages.length === 0">还没有任何消息哦~</li>
+      <el-alert title="还没有任何消息哦~" type="info" v-if="messages.length === 0" show-icon center></el-alert>
       <li v-else v-for="(message, key) in messages" :key="key+message">
         <!-- 自己 -->
         <div class="chat__content__self" v-if="message.self">
@@ -16,13 +15,13 @@
             </div>
           </div>
           <div class="chat__content__right">
-            <div :style="{background: avatarColor(message.nick)}" class="avatar">{{message.nick[0]}}</div>
+            <div :style="{background: hashColor(message.nick)}" class="avatar">{{message.nick[0]}}</div>
           </div>
         </div>
         <!-- 其他人 -->
         <div v-else>
           <div class="chat__content__left">
-            <div :style="{background: avatarColor(message.nick)}" class="avatar">{{message.nick[0]}}</div>
+            <div :style="{background: hashColor(message.nick)}" class="avatar">{{message.nick[0]}}</div>
           </div>
           <div class="chat__content__right">
             <p class="chat__content__head">
@@ -61,7 +60,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-import MD5 from 'js-md5';
+import { hashColor } from '../../../uitls';
 export default {
   props: ['nohandler'],
   data() {
@@ -78,6 +77,7 @@ export default {
     })
   },
   methods: {
+    hashColor,
     ...mapMutations({
       addMessage: 'addMessage',
       setShowTeacherBoard: 'setShowTeacherBoard'
@@ -116,9 +116,6 @@ export default {
     contetnSrollBottom() {
       let div = this.$refs.chatContent;
       div.scrollTop = div.scrollHeight;
-    },
-    avatarColor(nick) {
-      return '#' + MD5(nick).substr(8, 6);
     }
   },
   updated() {
@@ -145,111 +142,5 @@ export default {
 </script>
 
 <style lang="scss">
-$contentWidth: calc(100% - 140px);
-.chat {
-  height: 55vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  .avatar {
-    width: 60px;
-    height: 60px;
-    background: #eee;
-    border-radius: 50%;
-    line-height: 60px;
-    text-align: center;
-    font-size: 25px;
-    color: white;
-  }
-  &__content {
-    &__empty {
-      background-color: #f3f3f3;
-      text-align: center;
-      font-size: 16px;
-      padding: 10px 0;
-    }
-    li {
-      overflow: hidden;
-      zoom: 1;
-    }
-    overflow-y: scroll;
-    padding-bottom: 20px;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    &__self {
-      float: right;
-      text-align: right;
-      width: 100%;
-      .chat__content__left {
-        min-width: none;
-        max-width: $contentWidth;
-      }
-      .chat__content__right {
-        max-width: none;
-      }
-      .chat__content__text {
-        background: #4095f0;
-        color: white;
-        text-align: left;
-      }
-      .chat__content__head {
-        text-align: right;
-      }
-    }
-    &__left,
-    &__right {
-      display: inline-block;
-      max-width: $contentWidth;
-      text-align: left;
-    }
-    &__left {
-      word-break: break-all;
-    }
-    &__right {
-      vertical-align: top;
-      margin-left: 10px;
-      margin-bottom: 10px;
-    }
-    &__time {
-      font-size: 13px;
-      padding-left: 5px;
-      padding-right: 5px;
-    }
-    &__nick {
-      color: #4095f0;
-      font-weight: bold;
-    }
-    &__text {
-      background: #f3f3f3;
-      padding: 10px 10px;
-      border-radius: 5px;
-      img {
-        max-width: 100% !important;
-      }
-    }
-    @media screen and (max-width: 450px) {
-    }
-
-    &::-webkit-scrollbar {
-      display: auto;
-    }
-  }
-  &__operation {
-    padding: 15px 8px;
-    padding-right: 0;
-    background: #f3f3f3;
-    width: 100%;
-    border-radius: 5px;
-    .el-textarea {
-      width: calc(100% - 65px);
-      display: inline-block;
-    }
-    button {
-      margin: 10px;
-      display: inline-block;
-    }
-  }
-}
+@import '../../../assets/styles/chat';
 </style>
