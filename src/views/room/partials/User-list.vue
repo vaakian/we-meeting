@@ -1,13 +1,10 @@
 <!-- display the log when event happens, such as user join/leave, share screen, message -->
 <template>
   <div class="users" :style="{'display': state.showControls? 'block':'none'}">
-    <el-popover placement="bottom" title="会议成员" width="160" trigger="click">
+    <el-popover placement="bottom" title="会议成员" width="170" trigger="click">
+      <el-input class="users__kw" v-model="nickKeyword" placeholder="搜索成员"></el-input>
       <ul class="users__container">
-        <li class="users__user">
-          <div :style="{background: hashColor(myNick)}" class="users__user__avatar">{{myNick[0]}}</div>
-          <div class="users__user__nick">{{myNick}}</div>
-        </li>
-        <li class="users__user" v-for="({peer}, index) in clients" :key="index">
+        <li class="users__user" v-for="({peer}, index) in kwClients" :key="index">
           <div
             :style="{background: hashColor(peer.nick)}"
             class="users__user__avatar"
@@ -24,14 +21,26 @@ import { mapGetters } from 'vuex';
 import { hashColor } from '../../../uitls';
 export default {
   data() {
-    return {};
+    return {
+      nickKeyword: ''
+    };
   },
   computed: {
     ...mapGetters({
-      clients: 'getVideoClients',
+      otherClients: 'getVideoClients',
       myNick: 'getName',
       state: 'getState'
-    })
+    }),
+
+    kwClients() {
+      const { myNick, nickKeyword, otherClients } = this;
+      const clients = [{ peer: { nick: myNick } }, ...otherClients];
+      if (nickKeyword === '') return clients;
+      else
+        return clients.filter(
+          ({ peer }) => peer.nick.indexOf(nickKeyword) !== -1
+        );
+    }
     // clients() {
     //   return [
     //     { peer: { nick: '熊维建' } },
@@ -70,6 +79,9 @@ $userlistHeight: 45px;
   position: absolute;
   top: 15px;
   right: 15px;
+  &__kw {
+    margin-bottom: 5px;
+  }
   &__container {
     max-height: 55vh;
     overflow-y: scroll;
