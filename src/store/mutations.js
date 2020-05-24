@@ -1,4 +1,7 @@
 import { getCurrentTime } from '../uitls'
+export const setRoom = (state, room) => {
+  state.room = room;
+}
 export const setConnIsReady = (state, val) => {
   state.connIsReady = val;
 }

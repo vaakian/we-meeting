@@ -95,7 +95,8 @@ export default {
       setScreenSharing: 'setScreenSharing',
       setShowTeacherBoard: 'setShowTeacherBoard',
       setIsSketching: 'setIsSketching',
-      setShowControls: 'setShowControls'
+      setShowControls: 'setShowControls',
+      setRoom: 'setRoom'
     }),
     initMedia(media) {
       // 远程流
@@ -129,6 +130,7 @@ export default {
       window.webrtc.on('readyToCall', () => {
         console.log('加入房间', this.room);
         window.webrtc.joinRoom(this.room);
+        this.setRoom(this.room);
         this.setConnIsReady(true);
         this.chatable = true;
       });
