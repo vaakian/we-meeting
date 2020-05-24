@@ -12,8 +12,20 @@
           <div class="users__user__nick">{{peer.nick}}</div>
         </li>
       </ul>
-      <el-button slot="reference" type="primary" icon="el-icon-user" circle></el-button>
+      <el-tooltip slot="reference" content="会议成员" placement="bottom">
+        <el-button type="primary" icon="el-icon-user" circle></el-button>
+      </el-tooltip>
     </el-popover>
+
+    <el-tooltip content="退出会议">
+      <el-button
+        @click="handleExitMeeting"
+        style="margin-left: 5px"
+        icon="el-icon-close"
+        type="danger"
+        circle
+      ></el-button>
+    </el-tooltip>
   </div>
 </template>
 <script>
@@ -29,7 +41,8 @@ export default {
     ...mapGetters({
       otherClients: 'getVideoClients',
       myNick: 'getName',
-      state: 'getState'
+      state: 'getState',
+      room: 'getRoom'
     }),
 
     kwClients() {
@@ -67,7 +80,17 @@ export default {
     // }
   },
   methods: {
-    hashColor
+    hashColor,
+    handleExitMeeting() {
+      this.$confirm('确认退出会议?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        console.log(this);
+        this.$router.push({ path: `/?room=${this.room}` });
+      });
+    }
   }
 };
 </script>
