@@ -106,7 +106,7 @@ export default {
         autoRequestMedia: false,
         adjustPeerVolume: true,
         nick: this.state.name,
-        url: 'https://mohan.z-os.cn',
+        url: 'https://meeting.z-os.cn',
         peerConnectionConfig: {
           iceServers: [
             {
@@ -122,10 +122,16 @@ export default {
           // iceTransports: 'relay'
         },
         media,
-        debug: false
+        debug: true
       });
       // 请求摄像头
       window.webrtc.startLocalVideo();
+      window.webrtc.on('localMediaError', msg => {
+        this.$notify.error(`设备未打开，或无设备！\n[${msg}]`);
+        setTimeout(() => {
+          this.$router.push({ path: `/?room=${this.room}` });
+        }, 1000);
+      });
       // 请求准备完成，进入房间, readyToCall
       window.webrtc.on('readyToCall', () => {
         console.log('加入房间', this.room);
@@ -254,6 +260,7 @@ export default {
     window.webrtc.leaveRoom();
     window.webrtc.stopLocalVideo();
     window.webrtc.stopScreenShare();
+    window.$globaLoadingInstance.close();
     next();
   }
 };

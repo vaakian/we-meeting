@@ -112,8 +112,8 @@ $userlistHeight: 45px;
       display: none;
     }
   }
-  @media screen and(max-width:768px) {
-    display: none;
+  @media screen and(max-width: 768px) {
+    display: none !important;
   }
   &__user {
     list-style-type: none;

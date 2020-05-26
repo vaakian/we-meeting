@@ -89,10 +89,11 @@ export default {
   components: { Icon, VideoSwitch },
   name: 'home',
   data() {
+    let localName = this.getCacheName();
     return {
       activeName: 'join',
       room: this.$route.query.room,
-      name: randomName(),
+      name: localName || randomName(),
       value: '',
       denied: false
     };
@@ -110,6 +111,7 @@ export default {
         this.$notify.error('请输入会议号，或者创建新的会议');
         return;
       }
+      this.cacheName();
       this.setMeName(this.name);
       this.$router.push({
         name: 'room',
@@ -117,6 +119,12 @@ export default {
           room: this.room
         }
       });
+    },
+    cacheName() {
+      localStorage.setItem('name', this.name);
+    },
+    getCacheName() {
+      return localStorage.getItem('name');
     },
     checkIfBrowserSupportWebRTC() {
       const _vm = this;
@@ -129,23 +137,40 @@ export default {
           center: true,
           type: 'error'
         });
-        _vm.$loading({
-          target: _vm.$refs.homeForm,
-          icon: 'el-icon-error',
-          background: 'rgba(255,255,255, 0.7)'
-        });
+        this.lockHome();
         return;
       }
       // console.log(Adapter.browserDetails.browser);
       try {
         console.log(navigator.mediaDevices);
-        navigator.mediaDevices.getSupportedConstraints();
+        let userMedia = navigator.mediaDevices || navigator.getUserMedia; //.getSupportedConstraints();
+        let rtcPeerConnection =
+          window.RTCPeerConnection ||
+          window.webkitRTCPeerConnection ||
+          window.mozRTCPeerConnection ||
+          window.RTCIceGatherer;
+        if (!userMedia || !rtcPeerConnection) {
+          this.$alert('您的浏览器不支持WebRTC', '错误', {
+            confirmButtonText: '确定',
+            center: true,
+            type: 'error'
+          });
+          this.lockHome();
+        }
       } catch (err) {
         this.$notify.warning({
           message: err.message,
           duration: 100000
         });
       }
+    },
+    lockHome() {
+      const _vm = this;
+      this.$loading({
+        target: _vm.$refs.homeForm,
+        icon: 'el-icon-error',
+        background: 'rgba(255,255,255, 0.7)'
+      });
     }
   },
   mounted() {

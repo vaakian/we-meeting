@@ -28,6 +28,62 @@
   <!-- <script type="text/javascript" src="http://blog.z-os.cn/static/js/fabric.min.js"></script>
   <script type="text/javascript" src="http://blog.z-os.cn/static/js/customiseControls.min.js"></script> -->
   <title>We Meeting - 基于WebRTC的多人实时会议系统</title>
+  <style>
+    #Loading {
+      top: 50%;
+      left: 50%;
+      position: absolute;
+      -webkit-transform: translateY(-50%) translateX(-50%);
+      transform: translateY(-50%) translateX(-50%);
+      z-index: 100;
+    }
+
+    @-webkit-keyframes ball-beat {
+      50% {
+        opacity: 0.2;
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75);
+      }
+
+      100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+    }
+
+    @keyframes ball-beat {
+      50% {
+        opacity: 0.2;
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75);
+      }
+
+      100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+    }
+
+    .ball-beat>div {
+      background-color: #279fcf;
+      width: 15px;
+      height: 15px;
+      border-radius: 100% !important;
+      margin: 2px;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+      display: inline-block;
+      -webkit-animation: ball-beat 0.7s 0s infinite linear;
+      animation: ball-beat 0.7s 0s infinite linear;
+    }
+
+    .ball-beat>div:nth-child(2n-1) {
+      -webkit-animation-delay: 0.35s !important;
+      animation-delay: 0.35s !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -35,12 +91,20 @@
     <strong>We're sorry but webrtc doesn't work properly without JavaScript enabled. Please enable it to
       continue.</strong>
   </noscript>
-  <div id="app"></div>
+  <div id="app">
+    <div id="Loading">
+      <div class="loader-inner ball-beat">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
   <!-- built files will be auto injected -->
 </body>
-<!-- <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.3.4/vconsole.min.js"></script> -->
+<script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.3.4/vconsole.min.js"></script>
 <script>
-  // var vConsole = new VConsole();
+  var vConsole = new VConsole();
 </script>
 
 <style>
@@ -61,6 +125,7 @@
     border: none;
     background: none;
   }
+
   .el-popover__reference:hover {
     outline: none;
     order: none;

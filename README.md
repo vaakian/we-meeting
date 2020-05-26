@@ -2,7 +2,7 @@
 
 移动端 操作按钮分（操作、聊天）
 
-+ [ ] 退出功能
++ [x] 退出功能
 
 + [ ] 观看端 画板可收起
 
@@ -208,3 +208,10 @@ WebRTC模式的p2p去中心化架构：
 
 我们将这一切，都在浏览器中。 而这一切，都在web上完成了。
   432行，挂断之后，应该删除screen
+
+
+```shell
+// turn server
+nohup turnserver -a -v  --use-auth-secret --static-auth-secret=xwj -r=mohan.z-os.cn -X 116.63.153.127 -f >1.log 2>&1 & 
+```
+

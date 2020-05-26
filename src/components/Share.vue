@@ -5,7 +5,7 @@
       <el-button
         :icon="copyButtonStyle.icon"
         :type="copyButtonStyle.type"
-        v-clipboard="url"
+        v-clipboard="clipboardContent"
         v-clipboard:success="copySuccess"
         v-clipboard:error="copyError"
         round
@@ -22,6 +22,7 @@
 
 <script>
 import QRcode from 'qrcode';
+import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
@@ -51,6 +52,15 @@ export default {
     QRcode.toDataURL(location.href, (err, url) => {
       this.shareQR = url;
     });
+  },
+  computed: {
+    ...mapGetters({
+      state: 'getState',
+      room: 'getRoom'
+    }),
+    clipboardContent() {
+      return `${this.state.name} 邀请您参加会议，\n点击链接直接加入会议：\n${this.url}\n会议ID：${this.room}`;
+    }
   }
 };
 </script>
