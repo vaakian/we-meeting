@@ -1,6 +1,17 @@
 <!-- display the log when event happens, such as user join/leave, share screen, message -->
 <template>
-  <div class="users" :style="{'display': state.showControls? 'block':'none'}">
+  <div class="users">
+    <!-- 开关灯 -->
+    <el-tooltip :content="darkTheme? '开灯':'关灯'">
+      <el-button
+        @click="handleSwitchTheme"
+        style="margin-left: 5px"
+        icon="el-icon-s-opportunity"
+        :type="darkTheme ? 'info':'primary'"
+        circle
+      ></el-button>
+    </el-tooltip>
+    <!-- 成员 -->
     <el-popover placement="bottom" title="会议成员" width="170" trigger="click">
       <el-input class="users__kw" v-model="nickKeyword" placeholder="搜索成员"></el-input>
       <ul class="users__container">
@@ -13,10 +24,10 @@
         </li>
       </ul>
       <el-tooltip slot="reference" content="会议成员" placement="bottom">
-        <el-button type="primary" icon="el-icon-user" circle></el-button>
+        <el-button style="margin-left: 5px" type="primary" icon="el-icon-user" circle></el-button>
       </el-tooltip>
     </el-popover>
-
+    <!-- 退出 -->
     <el-tooltip content="退出会议">
       <el-button
         @click="handleExitMeeting"
@@ -29,7 +40,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState, mapMutations } from 'vuex';
 import { hashColor } from '../../../uitls';
 export default {
   data() {
@@ -44,7 +55,7 @@ export default {
       state: 'getState',
       room: 'getRoom'
     }),
-
+    ...mapState(['darkTheme']),
     kwClients() {
       const { myNick, nickKeyword, otherClients } = this;
       const clients = [{ peer: { nick: myNick } }, ...otherClients];
@@ -54,32 +65,9 @@ export default {
           ({ peer }) => peer.nick.indexOf(nickKeyword) !== -1
         );
     }
-    // clients() {
-    //   return [
-    //     { peer: { nick: '熊维建' } },
-    //     { peer: { nick: '马化腾' } },
-    //     { peer: { nick: '两千多' } },
-    //     { peer: { nick: '非标' } },
-    //     { peer: { nick: '华刘飞' } },
-    //     { peer: { nick: '熊维建' } },
-    //     { peer: { nick: '马化腾' } },
-    //     { peer: { nick: '两千多' } },
-    //     { peer: { nick: '非标' } },
-    //     { peer: { nick: '华刘飞' } },
-    //     { peer: { nick: '熊维建' } },
-    //     { peer: { nick: '马化腾' } },
-    //     { peer: { nick: '两千多' } },
-    //     { peer: { nick: '非标' } },
-    //     { peer: { nick: '华刘飞' } },
-    //     { peer: { nick: '熊维建' } },
-    //     { peer: { nick: '马化腾' } },
-    //     { peer: { nick: '两千多' } },
-    //     { peer: { nick: '非标' } },
-    //     { peer: { nick: '华刘飞' } }
-    //   ];
-    // }
   },
   methods: {
+    ...mapMutations(['setDarkTheme']),
     hashColor,
     handleExitMeeting() {
       this.$confirm('确认退出会议?', '提示', {
@@ -90,6 +78,17 @@ export default {
         console.log(this);
         this.$router.push({ path: `/?room=${this.room}` });
       });
+    },
+    handleSwitchTheme() {
+      this.setDarkTheme(!this.darkTheme);
+    }
+  },
+  watch: {
+    darkTheme: {
+      handler: val => {
+        document.body.className = val ? 'dark-theme' : 'light-theme';
+      },
+      immediate: true
     }
   }
 };
@@ -99,9 +98,26 @@ export default {
 $userlistHeight: 45px;
 
 .users {
-  position: absolute;
-  top: 15px;
-  right: 15px;
+  &__pc {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    @media screen and(max-width: 768px) {
+      display: none !important;
+    }
+  }
+  &__mobile {
+
+    display: flex;
+    justify-content: space-around;
+    max-width: 170px;
+    margin: 0 auto;
+    margin-top: 4px;
+    margin-bottom: 7px;
+    @media screen and(min-width: 768px) {
+      display: none !important;
+    }
+  }
   &__kw {
     margin-bottom: 5px;
   }
@@ -112,9 +128,7 @@ $userlistHeight: 45px;
       display: none;
     }
   }
-  @media screen and(max-width: 768px) {
-    display: none !important;
-  }
+
   &__user {
     list-style-type: none;
     font-size: 20px;

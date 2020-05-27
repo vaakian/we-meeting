@@ -6,6 +6,7 @@ import Clipboard from 'v-clipboard'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 // import 'element-theme-dark';
+import './assets/styles/dark-theme.scss';
 import 'vue-fabric/dist/vue-fabric.min.css';
 // import { Fabric } from 'vue-fabric';
 Vue.config.productionTip = false

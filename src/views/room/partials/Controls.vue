@@ -165,6 +165,8 @@
           </el-menu-item>
         </el-col>
       </el-row>
+      <el-divider style="margin: 0;"></el-divider>
+      <UserList class="users__mobile" />
     </el-menu>
 
     <!-- 收起、放下按钮 -->
@@ -177,18 +179,17 @@
         circle
       ></el-button>
     </div>
-    <!-- 画板 -->
   </div>
 </template>
 
 <script>
 import Chat from './Chat';
 import Share from '../../../components/Share';
-
+import UserList from './User-list';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
-  components: { Chat, Share },
+  components: { Chat, Share, UserList },
   computed: {
     ...mapGetters({
       state: 'getState',

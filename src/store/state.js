@@ -1,6 +1,7 @@
 export default {
   room: '',
   connIsReady: false,
+  darkTheme: 0,
   state: {
     name: '',
     muted: false,

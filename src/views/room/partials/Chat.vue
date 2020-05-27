@@ -19,7 +19,7 @@
           </div>
         </div>
         <!-- 其他人 -->
-        <div v-else>
+        <div class="chat__content__other" v-else>
           <div class="chat__content__left">
             <div :style="{background: hashColor(message.nick)}" class="avatar">{{message.nick[0]}}</div>
           </div>

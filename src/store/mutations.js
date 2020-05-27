@@ -47,3 +47,7 @@ export const setShowTeacherBoard = (state, val) => {
 export const setIsSketching = (state, val) => {
   state.state.isSketching = val;
 }
+
+export const setDarkTheme = (state, val) => {
+  state.darkTheme = val;
+}

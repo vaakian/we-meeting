@@ -48,7 +48,7 @@
       <StudentBoard v-else />
     </template>
     <!-- 用户列表 -->
-    <UserList />
+    <UserList v-show="state.showControls" class="users__pc" />
   </div>
 </template>
 
@@ -324,9 +324,9 @@ export default {
   width: 100%;
   padding: 5px;
   padding-top: 128px;
-  @media screen and(max-width: 768px) {
-    padding-top: 68px;
-  }
+  //@media screen and(max-width: 768px) {
+//    padding-top: 130px;
+ // }
   transition: 0.3s;
 }
 
