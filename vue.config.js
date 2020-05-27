@@ -1,7 +1,7 @@
 module.exports = {
   productionSourceMap: false,
   devServer: {
-    https: false,
+    https: true,
     host: '0.0.0.0',
     port: 8080
   }

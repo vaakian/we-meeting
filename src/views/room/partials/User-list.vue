@@ -114,6 +114,11 @@ $userlistHeight: 45px;
     margin: 0 auto;
     margin-top: 4px;
     margin-bottom: 7px;
+    &:hover,
+    &:focus {
+      border: none;
+      outline: none;
+    }
     @media screen and(min-width: 768px) {
       display: none !important;
     }
