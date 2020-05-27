@@ -165,7 +165,7 @@
           </el-menu-item>
         </el-col>
       </el-row>
-      <el-divider style="margin: 0;"></el-divider>
+      <el-divider class="controls__divider" style="margin: 0;"></el-divider>
       <UserList class="users__mobile" />
     </el-menu>
 
