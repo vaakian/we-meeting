@@ -51,3 +51,6 @@ export const setIsSketching = (state, val) => {
 export const setDarkTheme = (state, val) => {
   state.darkTheme = val;
 }
+export const switchTheme = (state) => {
+  state.darkTheme = !state.darkTheme;
+}

@@ -1,5 +1,6 @@
-<template functional>
+<template>
   <svg
+    :style="{'background': darkTheme? '#222933':'white'}"
     t="1589687827635"
     class="home-icon"
     viewBox="0 0 1024 1024"
@@ -11,7 +12,7 @@
   >
     <path
       d="M512 512m-490.666667 0a490.666667 490.666667 0 1 0 981.333334 0 490.666667 490.666667 0 1 0-981.333334 0Z"
-      fill="#EBF2FF"
+      :fill="darkTheme ? '#313846':'#EBF2FF'"
       p-id="8421"
     />
     <path
@@ -31,7 +32,15 @@
     />
   </svg>
 </template>
-
+<script>
+import { mapState } from 'vuex';
+export default {
+  name: 'Icon',
+  computed: {
+    ...mapState(['darkTheme'])
+  }
+};
+</script>
 <style lang="scss">
 .home-icon {
   width: 100px;
@@ -41,7 +50,7 @@
   border-radius: 100px;
   position: absolute;
   top: -50px;
-  background: white;
-  box-shadow: 0 32px 62px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 5px 20px -5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 </style>

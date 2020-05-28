@@ -90,6 +90,9 @@ export default {
   }
   &__qr {
     text-align: center;
+    img {
+      border-radius: 5px;
+    }
   }
   &__tip {
     p {

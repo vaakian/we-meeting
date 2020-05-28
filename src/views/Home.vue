@@ -1,7 +1,7 @@
 <template>
   <div class="home-bg">
     <div class="home">
-      <Icon />
+      <Icon @click.native="switchTheme" />
       <div class="home__content">
         <h1>We Meeting</h1>
         <h3>——基于WebRTC的多人实时会议系统</h3>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import uuid from 'uuid/v4';
 import Icon from '../components/Icon';
 import VideoSwitch from '../components/Video-switch';
@@ -98,9 +98,13 @@ export default {
       denied: false
     };
   },
+  computed: {
+    ...mapState(['darkTheme'])
+  },
   methods: {
     ...mapMutations({
-      setMeName: 'setMeName'
+      setMeName: 'setMeName',
+      switchTheme: 'switchTheme'
     }),
     join() {
       if (!this.name) {

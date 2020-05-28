@@ -4,7 +4,7 @@
     <!-- 开关灯 -->
     <el-tooltip :content="darkTheme? '开灯':'关灯'">
       <el-button
-        @click="handleSwitchTheme"
+        @click="switchTheme"
         style="margin-left: 5px"
         icon="el-icon-s-opportunity"
         :type="darkTheme ? 'info':'primary'"
@@ -67,7 +67,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setDarkTheme']),
+    ...mapMutations(['switchTheme']),
     hashColor,
     handleExitMeeting() {
       this.$confirm('确认退出会议?', '提示', {
@@ -78,17 +78,6 @@ export default {
         console.log(this);
         this.$router.push({ path: `/?room=${this.room}` });
       });
-    },
-    handleSwitchTheme() {
-      this.setDarkTheme(!this.darkTheme);
-    }
-  },
-  watch: {
-    darkTheme: {
-      handler: val => {
-        document.body.className = val ? 'dark-theme' : 'light-theme';
-      },
-      immediate: true
     }
   }
 };
@@ -107,7 +96,6 @@ $userlistHeight: 45px;
     }
   }
   &__mobile {
-
     display: flex;
     justify-content: space-around;
     max-width: 170px;
