@@ -54,3 +54,8 @@ export const setDarkTheme = (state, val) => {
 export const switchTheme = (state) => {
   state.darkTheme = !state.darkTheme;
 }
+
+export const setIsMobile = (state, val) => {
+  state.isMobile = val;
+}
+

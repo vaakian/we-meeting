@@ -796,11 +796,6 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@ele-cloud/element-theme-dark@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ele-cloud/element-theme-dark/-/element-theme-dark-1.0.0.tgz#fc56646a76a071fe73c74194106d3e16cde1b399"
-  integrity sha512-nQ2PG3BIzrmYnjZrwcKUeXiVoamToGWph57MhX/d4jxBjK1Wc8qptCEVL4zCDftRw+kzUUicwTY+24s8E91z4g==
-
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.npm.taobao.org/@hapi/address/download/@hapi/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -5030,6 +5025,11 @@ isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/isexe/download/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
+
+ismobilejs@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/ismobilejs/-/ismobilejs-1.1.1.tgz#c56ca0ae8e52b24ca0f22ba5ef3215a2ddbbaa0e"
+  integrity sha512-VaFW53yt8QO61k2WJui0dHf4SlL8lxBofUuUmwBo0ljPk0Drz2TiuDW4jo3wDcv41qy/SxrJ+VAzJ/qYqsmzRw==
 
 isobject@^2.0.0:
   version "2.1.0"

@@ -122,7 +122,7 @@ export default {
           // iceTransports: 'relay'
         },
         media,
-        debug: true
+        debug: false
       });
       // 请求摄像头
       window.webrtc.startLocalVideo();

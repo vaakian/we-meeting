@@ -42,6 +42,7 @@
         @keyup.ctrl.enter.native="sendMessage"
         :rows="2"
         type="textarea"
+        placeholder="请礼貌用语"
         :maxlength="256"
         resize="none"
       />

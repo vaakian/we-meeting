@@ -11,6 +11,7 @@
     "core-js": "^3.6.4",
     "element-ui": "^2.13.1",
     "fabric": "3.2.0",
+    "ismobilejs": "^1.1.1",
     "js-md5": "^0.7.3",
     "qrcode": "^1.4.4",
     "uuid": "^3.3.2",

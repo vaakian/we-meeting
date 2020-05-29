@@ -49,6 +49,7 @@
                 type="primary"
                 v-else
                 @click="shareScreen"
+                :disabled="isMobile"
                 round
               >屏幕共享</el-button>
               <!-- 画板 -->
@@ -57,7 +58,7 @@
                 icon="el-icon-edit"
                 type="primary"
                 @click="startSketch"
-                :disabled="state.isSketching"
+                :disabled="state.isSketching || isMobile"
                 round
               >实时画板</el-button>
             </div>
@@ -186,7 +187,7 @@
 import Chat from './Chat';
 import Share from '../../../components/Share';
 import UserList from './User-list';
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapGetters, mapMutations, mapActions, mapState } from 'vuex';
 
 export default {
   components: { Chat, Share, UserList },
@@ -194,7 +195,8 @@ export default {
     ...mapGetters({
       state: 'getState',
       messages: 'getMessages'
-    })
+    }),
+    ...mapState(['isMobile'])
   },
   methods: {
     ...mapMutations({

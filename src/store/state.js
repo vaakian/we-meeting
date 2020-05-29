@@ -1,7 +1,9 @@
+const darkTheme = eval(localStorage.getItem('darkTheme'));
 export default {
   room: '',
   connIsReady: false,
-  darkTheme: 0,
+  darkTheme,
+  isMobile: false,
   state: {
     name: '',
     muted: false,
