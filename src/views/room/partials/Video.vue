@@ -51,9 +51,9 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations } from "vuex";
 export default {
-  props: ['client'],
+  props: ["client"],
   data() {
     return {
       isZoomed: false,
@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setShowControls: 'setShowControls'
+      setShowControls: "setShowControls"
     }),
     toggleZoomed() {
       this.isZoomed = !this.isZoomed;
@@ -97,20 +97,21 @@ export default {
       this.$notify({
         dangerouslyUseHTMLString: true,
         message: `<strong style="color: #409EFF"> ${peer.nick}</strong> ${
-          peer.type === 'video' ? '加入了会议' : '开启了屏幕共享'
+          peer.type === "video" ? "加入了会议" : "开启了屏幕共享"
         }`,
-        type: 'warning'
+        type: "warning"
       });
   },
   beforeDestroy() {
     const { peer } = this.client;
-    this.$notify({
-      dangerouslyUseHTMLString: true,
-      message: ` <strong style="color: #409EFF"> ${peer.nick}</strong> ${
-        peer.type === 'video' ? '离开了会议' : '停止了屏幕共享'
-      }`,
-      iconClass: 'el-icon-circle-close'
-    });
+    this.$route.name === "room" &&
+      this.$notify({
+        dangerouslyUseHTMLString: true,
+        message: ` <strong style="color: #409EFF"> ${peer.nick}</strong> ${
+          peer.type === "video" ? "离开了会议" : "停止了屏幕共享"
+        }`,
+        iconClass: "el-icon-circle-close"
+      });
   },
   watch: {
     // 移动端不许点击
