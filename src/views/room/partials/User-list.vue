@@ -40,26 +40,26 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapState, mapMutations } from 'vuex';
-import { hashColor } from '../../../uitls';
+import { mapGetters, mapState, mapMutations } from "vuex";
+import { hashColor } from "../../../uitls";
 export default {
   data() {
     return {
-      nickKeyword: ''
+      nickKeyword: ""
     };
   },
   computed: {
     ...mapGetters({
-      otherClients: 'getVideoClients',
-      myNick: 'getName',
-      state: 'getState',
-      room: 'getRoom'
+      otherClients: "getVideoClients",
+      myNick: "getName",
+      state: "getState",
+      room: "getRoom"
     }),
-    ...mapState(['darkTheme']),
+    ...mapState(["darkTheme"]),
     kwClients() {
       const { myNick, nickKeyword, otherClients } = this;
       const clients = [{ peer: { nick: myNick } }, ...otherClients];
-      if (nickKeyword === '') return clients;
+      if (nickKeyword === "") return clients;
       else
         return clients.filter(
           ({ peer }) => peer.nick.indexOf(nickKeyword) !== -1
@@ -67,15 +67,14 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['switchTheme']),
+    ...mapMutations(["switchTheme"]),
     hashColor,
     handleExitMeeting() {
-      this.$confirm('确认退出会议?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      this.$confirm("确认退出会议?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       }).then(() => {
-        console.log(this);
         this.$router.push({ path: `/?room=${this.room}` });
       });
     }

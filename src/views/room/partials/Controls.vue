@@ -58,7 +58,7 @@
                 icon="el-icon-edit"
                 type="primary"
                 @click="startSketch"
-                :disabled="state.isSketching || isMobile"
+                :disabled="state.isSketching"
                 round
               >实时画板</el-button>
             </div>

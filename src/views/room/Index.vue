@@ -325,8 +325,8 @@ export default {
   padding: 5px;
   padding-top: 128px;
   //@media screen and(max-width: 768px) {
-//    padding-top: 130px;
- // }
+  //    padding-top: 130px;
+  // }
   transition: 0.3s;
 }
 

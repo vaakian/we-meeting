@@ -6,16 +6,16 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations } from "vuex";
 // import Sketch from './components/Sketch';
-import isMobile from 'ismobilejs';
+import isMobile from "ismobilejs";
 export default {
-  name: 'app',
+  name: "app",
   computed: {
-    ...mapState(['darkTheme'])
+    ...mapState(["darkTheme"])
   },
   methods: {
-    ...mapMutations(['setDarkTheme', 'setIsMobile']),
+    ...mapMutations(["setDarkTheme", "setIsMobile"]),
     checkIfIsMobile() {
       this.setIsMobile(isMobile(window.navigator).any);
     },
@@ -35,10 +35,10 @@ export default {
       };
 
       window
-        .matchMedia('(prefers-color-scheme: dark)')
+        .matchMedia("(prefers-color-scheme: dark)")
         .addListener(listeners.dark);
       window
-        .matchMedia('(prefers-color-scheme: light)')
+        .matchMedia("(prefers-color-scheme: light)")
         .addListener(listeners.light);
     }
   },
@@ -50,8 +50,8 @@ export default {
   watch: {
     darkTheme: {
       handler: val => {
-        document.body.className = val ? 'dark-theme' : 'light-theme';
-        localStorage.setItem('darkTheme', val);
+        document.body.className = val ? "dark-theme" : "light-theme";
+        localStorage.setItem("darkTheme", val);
       },
       immediate: true
     }
@@ -60,5 +60,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~@/assets/styles/app.scss';
+@import "~@/assets/styles/app.scss";
 </style>
