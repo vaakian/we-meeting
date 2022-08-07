@@ -1,4 +1,7 @@
-# Video chat build with SimpleWebRTC and Vue.js
+> 本人大二写的玩具项目，里面有着无处不在的`hard code`和糟糕的代码组织结构。\
+> 放在这里仅作为存档，警醒自己。
+
+# muti-client Video chat build with SimpleWebRTC and Vue.js
 
 移动端 操作按钮分（操作、聊天）
 
